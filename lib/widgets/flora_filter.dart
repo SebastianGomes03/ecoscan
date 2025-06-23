@@ -15,12 +15,23 @@ class FloraFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double barHeight = isSmall ? 60 : (isLarge ? 130 : 100);
+    double cardW = isSmall ? 70 : (isLarge ? 140 : 110);
+    double cardH = isSmall ? 50 : (isLarge ? 100 : 80);
+    double borderRadius = isSmall ? 10 : (isLarge ? 28 : 20);
+    double indicatorW = isSmall ? 24 : (isLarge ? 60 : 48);
+    double indicatorH = isSmall ? 4 : 8;
+    double sepW = isSmall ? 4 : 8;
+
     return SizedBox(
-      height: 110,
+      height: barHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: imageUrls.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, __) => SizedBox(width: sepW),
         itemBuilder: (context, index) {
           final selected = index == selectedIndex;
           return GestureDetector(
@@ -28,11 +39,11 @@ class FloraFilterBar extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: 118,
-                  height: 80,
+                  width: cardW,
+                  height: cardH,
                   decoration: BoxDecoration(
                     color: colorsWhite,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(borderRadius),
                     border: Border.all(
                       color:
                           selected ? colorsGreen : colorsBlack.withOpacity(0.7),
@@ -47,15 +58,15 @@ class FloraFilterBar extends StatelessWidget {
                     ],
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(borderRadius - 4),
                     child: Image.asset(imageUrls[index], fit: BoxFit.cover),
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: isSmall ? 4 : 8),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 200),
-                  width: selected ? 48 : 0,
-                  height: 8,
+                  width: selected ? indicatorW : 0,
+                  height: indicatorH,
                   decoration: BoxDecoration(
                     color: colorsGreen,
                     borderRadius: BorderRadius.circular(4),

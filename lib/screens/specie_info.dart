@@ -6,8 +6,7 @@ class SpecieInfoScreen extends StatelessWidget {
   final String name;
   final String scientificName;
   final String description;
-  final List<Map<String, String>>
-  dataCards; // [{'label': 'Peso', 'value': '1.7kg - 4.7kg'}, ...]
+  final List<Map<String, String>> dataCards;
 
   const SpecieInfoScreen({
     super.key,
@@ -20,10 +19,31 @@ class SpecieInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double imageHeight = isLarge ? 420 : (isSmall ? 220 : 320);
+    double nameFontSize = isSmall ? 28 : (isLarge ? 48 : 40);
+    double sciNameFontSize = isSmall ? 16 : (isLarge ? 28 : 22);
+    double cardLabelFontSize = isSmall ? 12 : 14;
+    double cardValueFontSize = isSmall ? 14 : 18;
+    double cardPaddingV = isSmall ? 8 : 14;
+    double cardPaddingH = isSmall ? 6 : 10;
+    double cardSpacing = isSmall ? 8 : 12;
+    double descTitleFontSize = isSmall ? 16 : 22;
+    double descFontSize = isSmall ? 12 : 16;
+    double backBtnSize = isSmall ? 36 : 44;
+    double backIconSize = isSmall ? 20 : 28;
+    double stackLeft = isSmall ? 10 : 20;
+    double stackBottom = isSmall ? 10 : 24;
+    double betweenNames = isSmall ? 2 : 6;
+
     return Scaffold(
       backgroundColor: colorsWhite,
       body: SafeArea(
-        top: false, // <-- Esto permite que la imagen llegue hasta arriba
+        top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,55 +51,70 @@ class SpecieInfoScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   width: double.infinity,
-                  height: 220,
+                  height: imageHeight,
                   child: Image.asset(imageUrl, fit: BoxFit.cover),
                 ),
                 Positioned(
-                  top: 32,
-                  left: 16,
+                  top: backBtnSize / 2,
+                  left: backBtnSize / 2,
                   child: GestureDetector(
                     onTap: () => Navigator.of(context).pop(),
                     child: Container(
-                      width: 44,
-                      height: 44,
+                      width: backBtnSize,
+                      height: backBtnSize,
                       decoration: BoxDecoration(
                         color: colorsWhite.withOpacity(0.18),
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(backBtnSize / 2),
                         border: Border.all(
                           color: colorsWhite.withOpacity(0.3),
                           width: 1.5,
                         ),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.arrow_back,
                         color: colorsWhite,
-                        size: 28,
+                        size: backIconSize,
                       ),
                     ),
                   ),
                 ),
                 Positioned(
-                  left: 20,
-                  bottom: 24,
+                  left: stackLeft,
+                  bottom: stackBottom,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         scientificName,
-                        style: const TextStyle(
-                          color: colorsWhite,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                        style: TextStyle(
+                          color: colorsWhite.withOpacity(0.8),
+                          fontSize: sciNameFontSize,
+                          fontWeight: FontWeight.w700,
                           fontFamily: 'Poppins',
+                          shadows: [
+                            Shadow(
+                              blurRadius: 16,
+                              color: colorsBlack,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
                         ),
                       ),
+                      SizedBox(height: betweenNames),
                       Text(
                         name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: colorsWhite,
-                          fontSize: 32,
+                          fontSize: nameFontSize,
                           fontWeight: FontWeight.w900,
                           fontFamily: 'Poppins',
+                          shadows: [
+                            Shadow(
+                              blurRadius: 16,
+                              color: colorsBlack,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -87,20 +122,20 @@ class SpecieInfoScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: cardSpacing),
             // Tarjetas de datos
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.symmetric(horizontal: cardSpacing),
               child: Wrap(
-                spacing: 12,
-                runSpacing: 12,
+                spacing: cardSpacing,
+                runSpacing: cardSpacing,
                 children:
                     dataCards.map((card) {
                       return Container(
-                        width: MediaQuery.of(context).size.width / 2 - 24,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 10,
+                        width: width / 2 - cardSpacing * 2,
+                        padding: EdgeInsets.symmetric(
+                          vertical: cardPaddingV,
+                          horizontal: cardPaddingH,
                         ),
                         decoration: BoxDecoration(
                           color: colorsGreen,
@@ -111,19 +146,19 @@ class SpecieInfoScreen extends StatelessWidget {
                           children: [
                             Text(
                               card['label']!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: colorsWhite,
-                                fontSize: 14,
+                                fontSize: cardLabelFontSize,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Poppins',
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Text(
                               card['value']!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: colorsWhite,
-                                fontSize: 18,
+                                fontSize: cardValueFontSize,
                                 fontWeight: FontWeight.w900,
                                 fontFamily: 'Poppins',
                               ),
@@ -134,14 +169,14 @@ class SpecieInfoScreen extends StatelessWidget {
                     }).toList(),
               ),
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: cardSpacing + 2),
             // Descripción
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: const Text(
+              padding: EdgeInsets.symmetric(horizontal: cardSpacing + 4),
+              child: Text(
                 "Descripción",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: descTitleFontSize,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Poppins',
                   color: colorsBlack,
@@ -150,15 +185,15 @@ class SpecieInfoScreen extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
+                padding: EdgeInsets.symmetric(
+                  horizontal: cardSpacing + 4,
                   vertical: 4,
                 ),
                 child: SingleChildScrollView(
                   child: Text(
                     description,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: TextStyle(
+                      fontSize: descFontSize,
                       color: colorsBlack,
                       fontFamily: 'Poppins',
                     ),

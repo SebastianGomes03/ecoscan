@@ -15,50 +15,63 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    // Responsive values
+    double logoHeight = width * 0.13;
+    double horizontalPadding = width * 0.03;
+    double verticalPadding = height * 0.01;
+    double cardSpacing = height * 0.02;
+    double welcomeFontSize = isSmall ? 18 : (isLarge ? 30 : 24);
+    double cardTitleFontSize = isSmall ? 18 : 24;
+
     return Scaffold(
       backgroundColor: colorsWhite,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Logo
               Row(
                 children: [
-                  Image.asset(
-                    'assets/images/logo.png', // Place your logo in assets and update path if needed
-                    height: 48,
-                  ),
-                  const SizedBox(width: 8),
+                  Image.asset('assets/images/logo.png', height: logoHeight),
+                  SizedBox(width: width * 0.02),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: height * 0.02),
               // Welcome message
-              const Text(
+              Text(
                 'Bienvenido, conozca la biodiversidad del Caroní.',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: welcomeFontSize,
                   color: colorsBlack,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: cardSpacing),
               // Flora card
               CategoryCard(
-                imageUrl:
-                    'assets/images/flora.png', // Use your flora image asset
+                imageUrl: 'assets/images/flora.png',
                 title: 'FLORA',
+                titleFontSize: cardTitleFontSize,
                 onTap: () {
                   widget.onCategorySelected?.call(0);
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: cardSpacing),
               // Fauna card
               CategoryCard(
-                imageUrl:
-                    'assets/images/fauna.png', // Use your fauna image asset
+                imageUrl: 'assets/images/fauna.png',
                 title: 'FAUNA',
+                titleFontSize: cardTitleFontSize,
                 onTap: () {
                   widget.onCategorySelected?.call(1);
                 },

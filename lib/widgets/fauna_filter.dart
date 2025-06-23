@@ -15,12 +15,23 @@ class FaunaFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double barHeight = isSmall ? 60 : (isLarge ? 130 : 100);
+    double cardW = isSmall ? 50 : (isLarge ? 100 : 80);
+    double cardH = isSmall ? 50 : (isLarge ? 100 : 80);
+    double borderRadius = isSmall ? 10 : (isLarge ? 28 : 20);
+    double indicatorW = isSmall ? 24 : (isLarge ? 60 : 48);
+    double indicatorH = isSmall ? 4 : 8;
+    double sepW = isSmall ? 2 : 4;
+
     return SizedBox(
-      height: 110,
+      height: barHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: items.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 4),
+        separatorBuilder: (_, __) => SizedBox(width: sepW),
         itemBuilder: (context, index) {
           final selected = index == selectedIndex;
           final bg = items[index]['bg']!;
@@ -30,11 +41,11 @@ class FaunaFilterBar extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: 80,
-                  height: 80,
+                  width: cardW,
+                  height: cardH,
                   decoration: BoxDecoration(
                     color: colorsWhite,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(borderRadius),
                     border: Border.all(
                       color:
                           selected ? colorsGreen : colorsBlack.withOpacity(0.7),
@@ -51,23 +62,25 @@ class FaunaFilterBar extends StatelessWidget {
                   child: Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(borderRadius - 4),
                         child: Image.asset(
                           bg,
                           fit: BoxFit.cover,
-                          width: 80,
-                          height: 80,
+                          width: cardW,
+                          height: cardH,
                         ),
                       ),
-                      Center(child: Image.asset(icon, width: 80, height: 80)),
+                      Center(
+                        child: Image.asset(icon, width: cardW, height: cardH),
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: isSmall ? 4 : 8),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 200),
-                  width: selected ? 48 : 0,
-                  height: 8,
+                  width: selected ? indicatorW : 0,
+                  height: indicatorH,
                   decoration: BoxDecoration(
                     color: colorsGreen,
                     borderRadius: BorderRadius.circular(4),

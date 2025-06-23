@@ -130,18 +130,20 @@ class _CameraScreenState extends State<CameraScreen>
   Widget _glassButton({
     required Widget child,
     required VoidCallback onTap,
-    double size = 56,
+    double? size,
   }) {
+    final width = MediaQuery.of(context).size.width;
+    final btnSize = size ?? (width < 360 ? 40 : (width > 600 ? 72 : 56));
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(size / 2),
+        borderRadius: BorderRadius.circular(btnSize / 2),
         child: Container(
-          width: size,
-          height: size,
+          width: btnSize,
+          height: btnSize,
           decoration: BoxDecoration(
             color: colorsWhite.withOpacity(0.18),
-            borderRadius: BorderRadius.circular(size / 2),
+            borderRadius: BorderRadius.circular(btnSize / 2),
             border: Border.all(color: colorsWhite.withOpacity(0.3), width: 1.5),
             boxShadow: [
               BoxShadow(
@@ -159,6 +161,18 @@ class _CameraScreenState extends State<CameraScreen>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double topPad = isSmall ? 12 : (isLarge ? 36 : 24);
+    double sidePad = isSmall ? 8 : (isLarge ? 32 : 16);
+    double bottomPad = isSmall ? 12 : (isLarge ? 36 : 24);
+    double iconSize = isSmall ? 20 : (isLarge ? 40 : 32);
+    double sendBtnSize = isSmall ? 40 : (isLarge ? 72 : 56);
+    double progressFontSize = isSmall ? 14 : (isLarge ? 22 : 18);
+    double progressBox = isSmall ? 100 : (isLarge ? 220 : 160);
+
     Widget content;
 
     if (_state == CameraState.preview) {
@@ -177,58 +191,64 @@ class _CameraScreenState extends State<CameraScreen>
             ),
           // Flash button
           Positioned(
-            top: 24,
-            left: 16,
+            top: topPad,
+            left: sidePad,
             child: _glassButton(
               child: Icon(
                 _flashOn ? Icons.flash_on : Icons.flash_off,
                 color: colorsWhite,
+                size: iconSize,
               ),
               onTap: _toggleFlash,
-              size: 48,
             ),
           ),
           // Gallery button
           Positioned(
-            bottom: 32,
-            left: 24,
+            bottom: bottomPad + 8,
+            left: sidePad + 8,
             child: _glassButton(
               child:
                   _imageFile != null
                       ? ClipOval(
                         child: Image.file(
                           File(_imageFile!.path),
-                          width: 40,
-                          height: 40,
+                          width: iconSize + 8,
+                          height: iconSize + 8,
                           fit: BoxFit.cover,
                         ),
                       )
-                      : Icon(Icons.image, color: colorsWhite),
+                      : Icon(Icons.image, color: colorsWhite, size: iconSize),
               onTap: _pickFromGallery,
-              size: 48,
             ),
           ),
           // Take picture button
           Positioned(
-            bottom: 24,
+            bottom: bottomPad,
             left: 0,
             right: 0,
             child: Center(
               child: _glassButton(
-                child: Icon(Icons.camera_alt, color: colorsWhite, size: 32),
+                child: Icon(
+                  Icons.camera_alt,
+                  color: colorsWhite,
+                  size: iconSize + 8,
+                ),
                 onTap: _takePicture,
-                size: 72,
+                size: iconSize + 32,
               ),
             ),
           ),
           // Switch camera button
           Positioned(
-            bottom: 32,
-            right: 24,
+            bottom: bottomPad + 8,
+            right: sidePad + 8,
             child: _glassButton(
-              child: Icon(Icons.cameraswitch, color: colorsWhite),
+              child: Icon(
+                Icons.cameraswitch,
+                color: colorsWhite,
+                size: iconSize,
+              ),
               onTap: _toggleCamera,
-              size: 48,
             ),
           ),
         ],
@@ -244,22 +264,21 @@ class _CameraScreenState extends State<CameraScreen>
           ),
           // Back button
           Positioned(
-            top: 24,
-            left: 16,
+            top: topPad,
+            left: sidePad,
             child: _glassButton(
-              child: Icon(Icons.arrow_back, color: colorsWhite),
+              child: Icon(Icons.arrow_back, color: colorsWhite, size: iconSize),
               onTap: _retake,
-              size: 48,
             ),
           ),
           // Send button
           Positioned(
-            bottom: 32,
-            right: 24,
+            bottom: bottomPad,
+            right: sidePad,
             child: _glassButton(
-              child: Icon(Icons.send, color: colorsWhite),
+              child: Icon(Icons.send, color: colorsWhite, size: iconSize),
               onTap: _sendImage,
-              size: 56,
+              size: sendBtnSize,
             ),
           ),
         ],
@@ -280,8 +299,8 @@ class _CameraScreenState extends State<CameraScreen>
             child: ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: Container(
-                width: 180,
-                height: 180,
+                width: progressBox,
+                height: progressBox,
                 decoration: BoxDecoration(
                   color: colorsWhite.withOpacity(0.18),
                   borderRadius: BorderRadius.circular(24),
@@ -296,14 +315,14 @@ class _CameraScreenState extends State<CameraScreen>
                     children: [
                       CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(colorsWhite),
-                        strokeWidth: 6,
+                        strokeWidth: isSmall ? 4 : 6,
                       ),
                       SizedBox(height: 24),
                       Text(
                         "Reconociendo...",
                         style: TextStyle(
                           color: colorsWhite,
-                          fontSize: 18,
+                          fontSize: progressFontSize,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

@@ -17,27 +17,37 @@ class CategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double borderRadius = isSmall ? 8 : (isLarge ? 24 : 16);
+    double imgW = isSmall ? 60 : (isLarge ? 180 : 120);
+    double imgH = isSmall ? 40 : (isLarge ? 120 : 90);
+    double titleFontSize = isSmall ? 14 : (isLarge ? 32 : 24);
+    double padH = isSmall ? 4 : 12;
+    double padW = isSmall ? 4 : 24;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2), // Reduced from 8 to 4
+      padding: EdgeInsets.symmetric(vertical: isSmall ? 1 : 2),
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(borderRadius),
           child: Stack(
             children: [
               // Background image
               Image.asset(
                 backgroundImageUrl,
                 width: double.infinity,
-                height: 90,
+                height: imgH,
                 fit: BoxFit.cover,
               ),
               // Overlay for better text visibility
               Container(
                 width: double.infinity,
-                height: 90,
+                height: imgH,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   color: colorsBlack.withOpacity(0.15),
                   border: Border.all(
                     color: colorsBlack.withOpacity(0.4),
@@ -49,30 +59,27 @@ class CategoryButton extends StatelessWidget {
               Positioned.fill(
                 child: Row(
                   children: [
-                    // Representative image
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: EdgeInsets.symmetric(horizontal: padH),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(borderRadius + 8),
                         child: Image.asset(
                           representativeImageUrl,
-                          width: 160,
-                          height: 90,
+                          width: imgW,
+                          height: imgH,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    // Spacer
-                    const SizedBox(width: 8),
-                    // Title
+                    SizedBox(width: isSmall ? 4 : 8),
                     Expanded(
                       child: Text(
                         title,
                         textAlign: TextAlign.right,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: colorsWhite,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900, // Black weight
+                          fontSize: titleFontSize,
+                          fontWeight: FontWeight.w900,
                           shadows: [
                             Shadow(
                               blurRadius: 8,
@@ -85,7 +92,7 @@ class CategoryButton extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(width: 24),
+                    SizedBox(width: padW),
                   ],
                 ),
               ),

@@ -7,9 +7,15 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double borderRadius = isSmall ? 12 : (isLarge ? 40 : 28);
+
     return Scaffold(
       body: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: FlutterMap(
           options: MapOptions(
             center: LatLng(8.317, -62.713), // Guayana City, near the river

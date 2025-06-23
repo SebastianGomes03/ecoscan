@@ -15,13 +15,23 @@ class FloraCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double borderRadius = isSmall ? 14 : (isLarge ? 36 : 24);
+    double outerPad = isSmall ? 6 : 12;
+    double imgHeight = isSmall ? 90 : (isLarge ? 200 : 160);
+    double titleFontSize = isSmall ? 18 : (isLarge ? 44 : 36);
+    double titleRight = isSmall ? 8 : 20;
+    double titleBottom = isSmall ? 8 : 20;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: outerPad),
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(borderRadius + 4),
             border: Border.all(color: colorsBlack.withOpacity(0.85), width: 4),
             boxShadow: [
               BoxShadow(
@@ -32,24 +42,24 @@ class FloraCategoryCard extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(borderRadius),
             child: Stack(
               children: [
                 Image.asset(
                   imageUrl,
                   width: double.infinity,
-                  height: 160,
+                  height: imgHeight,
                   fit: BoxFit.cover,
                 ),
                 Positioned(
-                  right: 20,
-                  bottom: 20,
+                  right: titleRight,
+                  bottom: titleBottom,
                   child: Text(
                     title,
                     style: TextStyle(
                       color: colorsWhite,
-                      fontSize: 36,
-                      fontWeight: FontWeight.w900, // Black weight
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.w900,
                       shadows: [
                         Shadow(
                           blurRadius: 8,

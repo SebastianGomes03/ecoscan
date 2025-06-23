@@ -159,6 +159,18 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double horizontalPadding = width * 0.015 + 4;
+    double verticalPadding = width * 0.01 + 2;
+    double filterSpacing = isSmall ? 6 : (isLarge ? 18 : 12);
+    double categoryTitleFontSize = isSmall ? 18 : (isLarge ? 36 : 28);
+    double gridSpacing = isSmall ? 8 : 16;
+    int gridCount = isLarge ? 3 : 2;
+    double gridAspectRatio = isLarge ? 1 : 0.8;
+
     // Determina la categoría y especies seleccionadas
     final isFlora = _selectedFilter == 0;
     final categories = isFlora ? floraCategories : faunaCategories;
@@ -168,13 +180,14 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
       backgroundColor: colorsWhite,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Search bar
               const CustomSearchBar(),
-              // Flora/Fauna filter
               FilterSelector(
                 selectedIndex: _selectedFilter,
                 onChanged: (index) {
@@ -185,11 +198,10 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 12),
-              // Mostrar el título de la categoría debajo de los filtros cuando se muestran especies
+              SizedBox(height: filterSpacing),
               if (_showSpeciesList)
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: filterSpacing / 2),
                   child:
                       isFlora
                           ? FloraFilterBar(
@@ -207,8 +219,7 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
                           )
                           : FaunaFilterBar(
                             selectedIndex: _selectedFaunaFilter,
-                            items:
-                                faunaCategories, // <-- Cambia imageUrls por items
+                            items: faunaCategories,
                             onChanged: (i) {
                               setState(() {
                                 _selectedFaunaFilter = i;
@@ -219,17 +230,17 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
                 ),
               if (_showSpeciesList)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
+                  padding: EdgeInsets.only(bottom: filterSpacing / 2),
                   child: Text(
                     selectedCategory,
-                    style: const TextStyle(
-                      fontSize: 32,
+                    style: TextStyle(
+                      fontSize: categoryTitleFontSize,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Poppins',
                     ),
                   ),
                 ),
-              const SizedBox(height: 8),
+              SizedBox(height: filterSpacing / 2),
               Expanded(
                 child:
                     !_showSpeciesList
@@ -267,10 +278,10 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
                         )
                         // Vista de especies de la categoría seleccionada
                         : GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.8,
-                          mainAxisSpacing: 16,
-                          crossAxisSpacing: 16,
+                          crossAxisCount: gridCount,
+                          childAspectRatio: gridAspectRatio,
+                          mainAxisSpacing: gridSpacing,
+                          crossAxisSpacing: gridSpacing,
                           children:
                               (isFlora
                                       ? floraSpecies[selectedCategory]

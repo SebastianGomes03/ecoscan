@@ -17,46 +17,55 @@ class SpeciesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isSmall = width < 360;
+    final isLarge = width > 600;
+    double imgHeight = isSmall ? 120 : (isLarge ? 260 : 180);
+    double nameFontSize = isSmall ? 14 : (isLarge ? 26 : 20);
+    double sciFontSize = isSmall ? 10 : (isLarge ? 18 : 13);
+    double borderRadius = isSmall ? 10 : (isLarge ? 24 : 16);
+    double padH = isSmall ? 2 : 4;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: colorsWhite,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(borderRadius),
               child: Image.asset(
                 imageUrl,
                 width: double.infinity,
-                height: 160,
+                height: imgHeight,
                 fit: BoxFit.cover,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+              padding: EdgeInsets.symmetric(horizontal: padH, vertical: 0),
               child: Text(
                 name,
-                style: const TextStyle(
-                  fontSize: 20,
+                style: TextStyle(
+                  fontSize: nameFontSize,
                   color: colorsBlack,
                   fontWeight: FontWeight.w900,
-                  fontFamily: 'Poppins', // Optional: match your app font
+                  fontFamily: 'Poppins',
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+              padding: EdgeInsets.symmetric(horizontal: padH, vertical: 0),
               child: Text(
                 scientificName,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: sciFontSize,
                   color: colorsBlack.withOpacity(0.7),
                   fontWeight: FontWeight.w700,
-                  fontFamily: 'Poppins', // Optional
+                  fontFamily: 'Poppins',
                 ),
               ),
             ),
