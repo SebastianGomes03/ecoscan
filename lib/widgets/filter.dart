@@ -56,10 +56,10 @@ class _FilterButton extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
-        height: 72,
+        height: 56,
         decoration: BoxDecoration(
           color: selected ? colorsGreen : colorsWhite,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(16),
           border:
               selected ? null : Border.all(color: Color(0xFF707070), width: 4),
           boxShadow:
@@ -85,7 +85,7 @@ class _FilterButton extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 24,
                 color: selected ? colorsBlack : Color(0xFF707070),
                 fontWeight: FontWeight.w600,
               ),

@@ -18,11 +18,11 @@ class CategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1), // Reduced from 8 to 4
+      padding: const EdgeInsets.symmetric(vertical: 2), // Reduced from 8 to 4
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(16),
           child: Stack(
             children: [
               // Background image
@@ -37,7 +37,7 @@ class CategoryButton extends StatelessWidget {
                 width: double.infinity,
                 height: 90,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(16),
                   color: colorsBlack.withOpacity(0.15),
                   border: Border.all(
                     color: colorsBlack.withOpacity(0.4),

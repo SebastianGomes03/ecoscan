@@ -23,16 +23,8 @@ class CustomNavbar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: colorsWhite,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        boxShadow: [
-          BoxShadow(
-            color: colorsBlack.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, -2),
-          ),
-        ],
+
       ),
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(items.length, (index) {
@@ -42,20 +34,14 @@ class CustomNavbar extends StatelessWidget {
               onTap: () => onTabSelected(index),
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 200),
-                margin: EdgeInsets.symmetric(horizontal: 4),
                 padding: EdgeInsets.symmetric(vertical: 6),
                 decoration:
                     selected
                         ? BoxDecoration(
                           color: colorsGreen,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: colorsGreen.withOpacity(0.3),
-                              blurRadius: 8,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(16),
+                          ),
                         )
                         : null,
                 child: Column(

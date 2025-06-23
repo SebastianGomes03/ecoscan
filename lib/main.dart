@@ -1,3 +1,4 @@
+import 'package:ecoscan/screens/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ecoscan/utils/colors.dart';
@@ -39,6 +40,9 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         body = const HomeScreen();
         break;
+      case 1:
+        body = const CameraScreen();
+        break;
       case 2:
         body = const BiopediaScreen();
         break;
@@ -52,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: CustomNavbar(
         selectedIndex: _selectedIndex,
         onTabSelected: (index) {
-          if (index == 0 || index == 2) {
+          if (index == 0 || index == 1 || index == 2) {
             setState(() {
               _selectedIndex = index;
             });

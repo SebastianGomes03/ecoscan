@@ -3,7 +3,6 @@ import 'package:ecoscan/widgets/searchbar.dart';
 import 'package:ecoscan/widgets/filter.dart';
 import 'package:ecoscan/widgets/flora_category.dart';
 import 'package:ecoscan/widgets/category.dart';
-import 'package:ecoscan/widgets/navbar.dart';
 import 'package:ecoscan/utils/colors.dart';
 
 class BiopediaScreen extends StatefulWidget {
@@ -78,7 +77,7 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 16),
               // Categories (not scrollable)
               ...(_selectedFilter == 0
                   ? floraCategories
