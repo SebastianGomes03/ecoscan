@@ -19,7 +19,7 @@ class CustomSearchBar extends StatelessWidget {
         color: colorsWhite,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: colorsBlack.withOpacity(0.2),
+          color: colorsBlack.withOpacity(0.5),
           width: 4,
         ),
       ),

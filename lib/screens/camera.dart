@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ecoscan/screens/specie_info.dart';
 import 'package:ecoscan/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -76,11 +77,41 @@ class _CameraScreenState extends State<CameraScreen>
     }
   }
 
-  void _sendImage() {
+  void _sendImage() async {
     setState(() {
       _state = CameraState.loading;
     });
-    // Simula carga indefinida
+
+    // Simula un "reconocimiento" con un pequeño delay
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (_) => SpecieInfoScreen(
+              imageUrl: 'assets/images/mammal.png',
+              name: 'Mono capuchino',
+              scientificName: 'Cebus capucinus',
+              description:
+                  'En Ciudad Guayana, el mono capuchino, conocido localmente como "mono maicero" o "mono chuco", es un primate pequeño y ágil con pelaje que varía entre tonos crema y canela, especialmente en la cara, cuello y hombros. Son omnívoros, adaptándose a una dieta diversa que incluye frutas, nueces, insectos y pequeños vertebrados. Suelen vivir en grupos sociales y son conocidos por su inteligencia y habilidad para usar herramientas.',
+              dataCards: [
+                {'label': 'Peso', 'value': '1.7kg - 4.7kg'},
+                {'label': 'Longitud', 'value': '35cm - 50cm'},
+                {'label': 'Origen', 'value': 'Nativa'},
+                {'label': 'Amenaza', 'value': 'No peligroso'},
+              ],
+            ),
+      ),
+    ).then((_) {
+      // Al regresar, vuelve a la cámara en modo preview
+      setState(() {
+        _state = CameraState.preview;
+        _imageFile = null;
+      });
+    });
   }
 
   void _retake() {

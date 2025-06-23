@@ -21,20 +21,20 @@ class CustomNavbar extends StatelessWidget {
     ];
 
     return Container(
-      decoration: BoxDecoration(
-        color: colorsWhite,
-
-      ),
+      decoration: BoxDecoration(color: colorsWhite),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(items.length, (index) {
           final selected = index == selectedIndex;
           return Expanded(
             child: GestureDetector(
+              behavior: HitTestBehavior.opaque, // <-- Aumenta el área de toque
               onTap: () => onTabSelected(index),
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 200),
-                padding: EdgeInsets.symmetric(vertical: 6),
+                padding: EdgeInsets.symmetric(
+                  vertical: 12,
+                ), // <-- Más padding vertical
                 decoration:
                     selected
                         ? BoxDecoration(
@@ -50,7 +50,7 @@ class CustomNavbar extends StatelessWidget {
                     Icon(
                       items[index].icon,
                       size: 32,
-                      color: selected ? colorsWhite: colorsBlack,
+                      color: selected ? colorsWhite : colorsBlack,
                     ),
                     SizedBox(height: 4),
                     Text(

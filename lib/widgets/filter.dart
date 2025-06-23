@@ -61,7 +61,7 @@ class _FilterButton extends StatelessWidget {
           color: selected ? colorsGreen : colorsWhite,
           borderRadius: BorderRadius.circular(16),
           border:
-              selected ? null : Border.all(color: Color(0xFF707070), width: 4),
+              selected ? null : Border.all(color: colorsBlack.withOpacity(0.5), width: 4),
           boxShadow:
               selected
                   ? [
@@ -79,14 +79,14 @@ class _FilterButton extends StatelessWidget {
             Icon(
               icon,
               size: 40,
-              color: selected ? colorsBlack : Color(0xFF707070),
+              color: selected ? colorsBlack : colorsBlack.withOpacity(0.5),
             ),
             SizedBox(width: 12),
             Text(
               label,
               style: TextStyle(
                 fontSize: 24,
-                color: selected ? colorsBlack : Color(0xFF707070),
+                color: selected ? colorsBlack : colorsBlack.withOpacity(0.5),
                 fontWeight: FontWeight.w600,
               ),
             ),

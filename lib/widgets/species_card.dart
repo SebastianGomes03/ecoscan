@@ -20,49 +20,46 @@ class SpeciesCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: colorsWhite,
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(16),
               child: Image.asset(
                 imageUrl,
                 width: double.infinity,
-                height: 220,
+                height: 160,
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
               child: Text(
                 name,
                 style: const TextStyle(
-                  fontSize: 32,
+                  fontSize: 20,
                   color: colorsBlack,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w900,
                   fontFamily: 'Poppins', // Optional: match your app font
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
               child: Text(
                 scientificName,
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 13,
                   color: colorsBlack.withOpacity(0.7),
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w700,
                   fontFamily: 'Poppins', // Optional
                 ),
               ),
             ),
-            const SizedBox(height: 8),
           ],
         ),
       ),

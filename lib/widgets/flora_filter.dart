@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ecoscan/utils/colors.dart';
 
-class FaunaFilterBar extends StatelessWidget {
+class FloraFilterBar extends StatelessWidget {
   final int selectedIndex;
-  final List<Map<String, String>> items; // Each item: {'bg': ..., 'icon': ...}
+  final List<String> imageUrls;
   final void Function(int) onChanged;
 
-  const FaunaFilterBar({
+  const FloraFilterBar({
     super.key,
     required this.selectedIndex,
-    required this.items,
+    required this.imageUrls,
     required this.onChanged,
   });
 
@@ -19,18 +19,16 @@ class FaunaFilterBar extends StatelessWidget {
       height: 110,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: items.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 4),
+        itemCount: imageUrls.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final selected = index == selectedIndex;
-          final bg = items[index]['bg']!;
-          final icon = items[index]['icon']!;
           return GestureDetector(
             onTap: () => onChanged(index),
             child: Column(
               children: [
                 Container(
-                  width: 80,
+                  width: 118,
                   height: 80,
                   decoration: BoxDecoration(
                     color: colorsWhite,
@@ -48,19 +46,9 @@ class FaunaFilterBar extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          bg,
-                          fit: BoxFit.cover,
-                          width: 80,
-                          height: 80,
-                        ),
-                      ),
-                      Center(child: Image.asset(icon, width: 80, height: 80)),
-                    ],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(imageUrls[index], fit: BoxFit.cover),
                   ),
                 ),
                 const SizedBox(height: 8),
