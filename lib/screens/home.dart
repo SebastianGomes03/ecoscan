@@ -1,9 +1,12 @@
+import 'package:ecoscan/screens/biopedia.dart';
 import 'package:flutter/material.dart';
 import 'package:ecoscan/widgets/card.dart';
 import 'package:ecoscan/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final void Function(int filter)? onCategorySelected;
+
+  const HomeScreen({super.key, this.onCategorySelected});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -43,19 +46,21 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               // Flora card
               CategoryCard(
-                imageUrl: 'assets/images/flora.png', // Use your flora image asset
+                imageUrl:
+                    'assets/images/flora.png', // Use your flora image asset
                 title: 'FLORA',
                 onTap: () {
-                  // Navigate to flora section
+                  widget.onCategorySelected?.call(0);
                 },
               ),
               const SizedBox(height: 16),
               // Fauna card
               CategoryCard(
-                imageUrl: 'assets/images/fauna.png', // Use your fauna image asset
+                imageUrl:
+                    'assets/images/fauna.png', // Use your fauna image asset
                 title: 'FAUNA',
                 onTap: () {
-                  // Navigate to fauna section
+                  widget.onCategorySelected?.call(1);
                 },
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:ecoscan/screens/camera.dart';
+import 'package:ecoscan/screens/map.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ecoscan/utils/colors.dart';
@@ -32,22 +33,46 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  int? _biopediaInitialFilter;
+
+  void _onTabSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (index != 2) {
+        _biopediaInitialFilter = null; // Reset when leaving Biopedia
+      }
+    });
+  }
+
+  void _goToBiopedia({int initialFilter = 0}) {
+    setState(() {
+      _selectedIndex = 2;
+      _biopediaInitialFilter = initialFilter;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget body;
     switch (_selectedIndex) {
       case 0:
-        body = const HomeScreen();
+        body = HomeScreen(
+          onCategorySelected: (filter) => _goToBiopedia(initialFilter: filter),
+        );
         break;
       case 1:
         body = const CameraScreen();
         break;
       case 2:
-        body = const BiopediaScreen();
+        body = BiopediaScreen(initialFilter: _biopediaInitialFilter ?? 0);
+        break;
+      case 3:
+        body = const MapScreen();
         break;
       default:
-        body = const HomeScreen(); // fallback
+        body = HomeScreen(
+          onCategorySelected: (filter) => _goToBiopedia(initialFilter: filter),
+        );
     }
 
     return Scaffold(
@@ -55,13 +80,7 @@ class _MainScreenState extends State<MainScreen> {
       body: body,
       bottomNavigationBar: CustomNavbar(
         selectedIndex: _selectedIndex,
-        onTabSelected: (index) {
-          if (index == 0 || index == 1 || index == 2) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          }
-        },
+        onTabSelected: _onTabSelected,
       ),
     );
   }

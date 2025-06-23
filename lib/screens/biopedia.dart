@@ -1,4 +1,5 @@
 import 'package:ecoscan/screens/specie_info.dart';
+import 'package:ecoscan/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:ecoscan/widgets/searchbar.dart';
 import 'package:ecoscan/widgets/filter.dart';
@@ -10,14 +11,16 @@ import 'package:ecoscan/widgets/species_card.dart';
 import 'package:ecoscan/utils/colors.dart';
 
 class BiopediaScreen extends StatefulWidget {
-  const BiopediaScreen({super.key});
+  final int initialFilter;
+
+  const BiopediaScreen({super.key, this.initialFilter = 0});
 
   @override
   State<BiopediaScreen> createState() => _BiopediaScreenState();
 }
 
 class _BiopediaScreenState extends State<BiopediaScreen> {
-  int _selectedFilter = 0; // 0: Flora, 1: Fauna
+  late int _selectedFilter = 0; // 0: Flora, 1: Fauna
   bool _showSpeciesList = false;
   int _selectedCategoryIndex = 0;
 
@@ -147,6 +150,12 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
   // Para los filtros de flora/fauna
   int _selectedFloraFilter = 0;
   int _selectedFaunaFilter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedFilter = widget.initialFilter; // Set from parameter
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -314,7 +323,6 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
           ),
         ),
       ),
-      // Aquí iría tu navbar si lo tienes como bottomNavigationBar
     );
   }
 }
