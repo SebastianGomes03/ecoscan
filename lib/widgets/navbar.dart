@@ -21,7 +21,7 @@ class CustomNavbar extends StatelessWidget {
     ];
 
     return Container(
-      decoration: BoxDecoration(color: colorsWhite),
+      decoration: BoxDecoration(color:Colors.transparent),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(items.length, (index) {
