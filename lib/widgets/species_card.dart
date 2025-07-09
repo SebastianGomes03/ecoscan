@@ -52,7 +52,7 @@ class SpeciesCard extends StatelessWidget {
                               color: Colors.grey[300],
                               child: Icon(
                                 Icons.image_not_supported,
-                                size: imgHeight * 0.5,
+                                size: imgHeight *0.75,
                                 color: Colors.grey[600],
                               ),
                             ),
@@ -63,7 +63,7 @@ class SpeciesCard extends StatelessWidget {
                         color: Colors.grey[300],
                         child: Icon(
                           Icons.image,
-                          size: imgHeight * 0.5,
+                          size: imgHeight * 0.75,
                           color: Colors.grey[600],
                         ),
                       ),

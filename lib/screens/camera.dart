@@ -119,7 +119,8 @@ class _CameraScreenState extends State<CameraScreen>
                 tipo: 'fauna',
                 clasificacion: 'mamífero',
                 descripcion:
-                    'En Ciudad Guayana, el mono capuchino, conocido localmente como "mono maicero" o "mono chuco", es un primate pequeño y ágil con pelaje que varía entre tonos crema y canela, especialmente en la cara, cuello y hombros. Son omnívoros, adaptándose a una dieta diversa que incluye frutas, nueces, insectos y pequeños vertebrados. Suelen vivir en grupos sociales y son conocidos por su inteligencia y habilidad para usar herramientas.',
+                    'En Ciudad Guayana, el mono capuchino, conocido localmente como "mono maicero" o "mono chuco", es un primate pequeño y ágil con pelaje que varía entre tonos crema y canela, especialmente en la cara, cuello y hombros. Son omnívoros, adaptándose a una dieta diversa que incluye frutas, nueces, insectos y pequeños vertebrados. Suelen vivir en grupos sociales y son conocidos por su inteligencia y habilidad para usar herramientas.', 
+                imagen: '',
               ),
             ),
       ),

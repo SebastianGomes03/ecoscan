@@ -13,6 +13,7 @@ class Species {
   final String tipo;
   final String clasificacion;
   final String descripcion;
+  final String imagen;
 
   Species({
     required this.nombreComun,
@@ -25,6 +26,7 @@ class Species {
     required this.tipo,
     required this.clasificacion,
     required this.descripcion,
+    required this.imagen,
   });
 
   factory Species.fromCsv(List<dynamic> row) {
@@ -40,6 +42,7 @@ class Species {
       tipo: clean(row[7]),
       clasificacion: clean(row[8]),
       descripcion: row[9]?.toString() ?? '',
+      imagen: row.length > 10 ? row[10]?.toString() ?? '' : '',
     );
   }
 }

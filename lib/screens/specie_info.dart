@@ -214,10 +214,28 @@ class SpecieInfoScreen extends StatelessWidget {
   }
 
   Widget speciesImageWidget(Species species, double height) {
-    // Aquí puedes mapear imágenes según especie, tipo o clasificación
-    // Por ahora, muestra un placeholder seguro
+    // Usa la imagen específica si está disponible
+    if (species.imagen.isNotEmpty) {
+      return Image.asset(
+        species.imagen,
+        fit: BoxFit.cover,
+        height: height,
+        width: double.infinity,
+        errorBuilder:
+            (context, error, stackTrace) => Container(
+              height: height,
+              width: double.infinity,
+              color: Colors.grey[300],
+              child: Icon(
+                Icons.image,
+                size: height * 0.5,
+                color: Colors.grey[600],
+              ),
+            ),
+      );
+    }
+    // ...fallback anterior...
     String? asset;
-    // Ejemplo: puedes usar el tipo o clasificación para elegir imagen
     switch (species.clasificacion) {
       case 'mamífero':
         asset = 'assets/images/mamifero.png';

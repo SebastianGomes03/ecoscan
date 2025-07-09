@@ -97,7 +97,7 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
     double verticalPadding = width * 0.01 + 2;
     double filterSpacing = isSmall ? 6 : (isLarge ? 18 : 12);
     double categoryTitleFontSize = isSmall ? 18 : (isLarge ? 36 : 28);
-    double gridSpacing = isSmall ? 8 : 16;
+    double gridSpacing = isSmall ? 4 : 8;
     int gridCount = isLarge ? 3 : 2;
     double gridAspectRatio = isLarge ? 1 : 0.8;
 
@@ -124,13 +124,26 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
               var filteredSpecies =
                   allSpecies.where((sp) {
                     if (isFlora) {
-                      return sp.tipo == 'flora' &&
-                          sp.clasificacion == selectedCategory.toLowerCase();
+                      return sp.tipo.trim().toLowerCase() == 'flora' &&
+                          sp.clasificacion.trim().toLowerCase() ==
+                              selectedCategory.toLowerCase();
                     } else {
                       String cat = selectedCategory.toLowerCase();
-                      if (cat.endsWith('s'))
-                        cat = cat.substring(0, cat.length - 1);
-                      return sp.tipo == 'fauna' && sp.clasificacion == cat;
+                      String singular =
+                          cat.endsWith('s')
+                              ? cat.substring(0, cat.length - 1)
+                              : cat;
+                      // Imprime para depuración
+                      // print('tipo: "${sp.tipo}", clasificacion: "${sp.clasificacion}"');
+                      return sp.tipo.trim().toLowerCase() == 'fauna' &&
+                          (sp.clasificacion.trim().toLowerCase() == cat ||
+                              sp.clasificacion.trim().toLowerCase() ==
+                                  singular ||
+                              sp.clasificacion.trim().toLowerCase() == 'pez' &&
+                                  cat == 'peces' ||
+                              sp.clasificacion.trim().toLowerCase() ==
+                                      'reptil' &&
+                                  cat == 'reptiles');
                     }
                   }).toList();
               // Apply search filter
@@ -272,14 +285,14 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
                             : GridView.count(
                               crossAxisCount: gridCount,
                               childAspectRatio: gridAspectRatio,
-                              mainAxisSpacing: gridSpacing,
+                              mainAxisSpacing: 0,
                               crossAxisSpacing: gridSpacing,
                               children:
                                   filteredSpecies
                                       .map(
                                         (sp) => SpeciesCard(
                                           imageUrl:
-                                              '', // Puedes mapear imagen si lo deseas
+                                              sp.imagen, // <-- Mostrar la imagen de la especie
                                           name: sp.nombreComun,
                                           scientificName: sp.nombreCientifico,
                                           onTap: () {
