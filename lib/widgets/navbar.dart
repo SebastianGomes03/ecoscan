@@ -71,7 +71,8 @@ class CustomNavbar extends StatelessWidget {
                           style: TextStyle(
                             color: colorsGreen,
                             fontWeight: FontWeight.bold,
-                            fontSize: 10,
+                            fontFamily: 'Poppins',
+                            fontSize: 12,
                           ),
                         ),
                       ],

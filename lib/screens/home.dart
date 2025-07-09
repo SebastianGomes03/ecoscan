@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double verticalPadding = height * 0.01;
     double cardSpacing = height * 0.02;
     double welcomeFontSize = isSmall ? 18 : (isLarge ? 30 : 24);
-    double cardTitleFontSize = isSmall ? 18 : 24;
+    double cardTitleFontSize = isSmall ? 32 : 40;
 
     return Scaffold(
       backgroundColor: colorsWhite,

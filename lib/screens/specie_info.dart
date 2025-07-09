@@ -15,12 +15,8 @@ class SpecieInfoScreen extends StatelessWidget {
     final isSmall = width < 360;
     final isLarge = width > 600;
     double imageHeight = isLarge ? 420 : (isSmall ? 220 : 320);
-    double nameFontSize = isSmall ? 28 : (isLarge ? 48 : 40);
-    double sciNameFontSize = isSmall ? 16 : (isLarge ? 28 : 22);
-    double cardLabelFontSize = isSmall ? 12 : 14;
-    double cardValueFontSize = isSmall ? 14 : 18;
-    double cardPaddingV = isSmall ? 8 : 14;
-    double cardPaddingH = isSmall ? 6 : 10;
+    double nameFontSize = isSmall ? 22 : (isLarge ? 38 : 30);
+    double sciNameFontSize = isSmall ? 12 : (isLarge ? 24 : 18);
     double cardSpacing = isSmall ? 8 : 12;
     double descTitleFontSize = isSmall ? 16 : 22;
     double descFontSize = isSmall ? 12 : 16;
@@ -28,7 +24,7 @@ class SpecieInfoScreen extends StatelessWidget {
     double backIconSize = isSmall ? 20 : 28;
     double stackLeft = isSmall ? 10 : 20;
     double stackBottom = isSmall ? 10 : 24;
-    double betweenNames = isSmall ? 2 : 6;
+    double betweenNames = isSmall ? 1 : 2;
 
     return Scaffold(
       backgroundColor: colorsWhite,

@@ -22,7 +22,7 @@ class CategoryCard extends StatelessWidget {
     final isLarge = width > 600;
     double borderRadius = isSmall ? 12 : (isLarge ? 36 : 24);
     double imgHeight = isSmall ? 160 : (isLarge ? 360 : 260);
-    double titleFont = titleFontSize ?? (isSmall ? 18 : (isLarge ? 44 : 32));
+    double titleFont = titleFontSize ?? (isSmall ? 32 : (isLarge ? 56 : 48));
     double pad = isSmall ? 8 : 16;
 
     return GestureDetector(
@@ -45,6 +45,7 @@ class CategoryCard extends StatelessWidget {
                 style: TextStyle(
                   color: colorsWhite,
                   fontSize: titleFont,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.w900,
                   shadows: [
                     Shadow(

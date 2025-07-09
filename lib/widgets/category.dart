@@ -79,6 +79,7 @@ class CategoryButton extends StatelessWidget {
                         style: TextStyle(
                           color: colorsWhite,
                           fontSize: titleFontSize,
+                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w900,
                           shadows: [
                             Shadow(
