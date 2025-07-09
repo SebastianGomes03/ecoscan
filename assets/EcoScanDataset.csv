@@ -1,0 +1,59 @@
+Nombre común,Nombre científico,Peligroso, Razón, Peso,Longitud,Origen,Tipo,Clasificación,Descripción
+Monos capuchino,Cebus apella,Sí,Mordeduras,2-4 kg,35-45 cm,Nativo,Fauna,Mamífero,Monos inteligentes de hábitos diurnos; viven en grupos. Se alimentan de frutas e Faunas.
+Chiguire,Hydrochoerus hydrochaeris,No,null,35-65 kg,1-1.3 m,Nativo,Fauna,Mamífero,Roedor más grande del mundo; semiacuático. Habita cerca de cuerpos de agua.
+Sapito minero,Dendrobates leucomelas,Sí,Piel Tóxica,0.002 kg,2-4 cm,Nativo,Fauna,Anfibio,Rana venenosa de colores vibrantes. Su toxina es defensiva contra depredadores.
+Nutria gigante,Pteronura brasiliensis,Sí,Defensa territorial,22-32 kg,1.5-1.8 m,Nativo,Fauna,Mamífero,Nutria social en peligro de extinción. Excelente nadadora, caza en grupo.
+Lapa,Cuniculus paca,No,null,6-12 kg,60-80 cm,Nativo,Fauna,Mamífero,Roedor nocturno con manchas blancas. Habita en madrigueras cerca del agua.
+Baba,Caiman crocodilus,Sí,Poderosas mandíbulas y dientes,15-40 kg,1.5-2.5 m,Nativo,Fauna,Reptil,Caimán común en ríos y lagunas. Cazador oportunista.
+Cachicamo,Dasypus novemcinctus,No,null,3-6 kg,40-50 cm,Nativo,Fauna,Mamífero,Armadillo con caparazón flexible. Excava madrigueras.
+Baquiro,Tayassu pecari,Sí,Cuando acorralado,25-40 kg,90-130 cm,Nativo,Fauna,Mamífero,Pecarí de collar; vive en manadas. Defiende agresivamente a sus crías.
+Curí,Cavia porcellus,No,null,0.8-1.2 kg,20-25 cm,Introducido,Fauna,Mamífero,Cobaya doméstica asilvestrada. Herbívora; de hábitos crepusculares.
+Morrocoy,Chelonoidis carbonarius,No,null,5-8 kg,30-40 cm,Nativo,Fauna,Reptil,Tortuga terrestre omnívora. Caparazón abombado oscuro.
+Culebra,Erythrolamprus aesculapii,No,null,0.3-0.8 kg,50-100 cm,Nativo,Fauna,Reptil,Serpiente común no venenosa. Controla plagas de roedores.
+Boa constrictora,Boa constrictor,Sí,Fuerza y método de caza por constricción,10-15 kg,2-3 m,Nativo,Fauna,Reptil,Serpiente constrictora poderosa. Mata por asfixia.
+Lora,Amazona amazonica,No,null,0.3-0.4 kg,30-35 cm,Nativo,Fauna,Ave,Loro de alas naranjas. Forma bandadas ruidosas.
+Falsa coral,Erythrolamprus mimus,No,null,0.2-0.5 kg,40-70 cm,Nativo,Fauna,Reptil,Serpiente inofensiva que imita a coral venenosa. Anillada rojo/negro.
+Morocoto,Piaractus brachypomus,No,null,10-20 kg,70-90 cm,Nativo,Fauna,Pez,Pez omnívoro de río. Cuerpo plateado comprimido.
+Torneado,Semaprochilodus kneri,No,null,1-2 kg,25-35 cm,Nativo,Fauna,Pez,Peces de fondo migratorios. Importantes para pesca local.
+Pavón,Cichla orinocensis,No,null,8-10 kg,60-80 cm,Nativo,Fauna,Pez,Depredador fluvial. Carnívoro; con manchas características.
+Palambra,Brycon whitei,No,null,4-7 kg,50-70 cm,Nativo,Fauna,Pez,Peces plateados de cardumen. Omnívoros; saltadores.
+Payara,Hydrolycus armatus,Sí,Colmillos,8-18 kg,70-120 cm,Nativo,Fauna,Pez,Pez vampiro con colmillos largos. Depredador agresivo.
+Araguato,Alouatta seniculus,No,null,5-9 kg,50-70 cm,Nativo,Fauna,Mamífero,Mono aullador de pelaje rojizo. Emite fuertes vocalizaciones.
+Tucán,Ramphastos tucanus,No,null,0.5-0.8 kg,50-60 cm,Nativo,Fauna,Ave,Ave de pico largo colorido. Frugívoro; anida en huecos.
+Loro real,Amazona ochrocephala,No,null,0.4-0.6 kg,35-38 cm,Nativo,Fauna,Ave,Loro de cabeza amarilla. Social; habita selvas húmedas.
+Azulejo,Thraupis episcopus,No,null,0.03-0.04 kg,16-18 cm,Nativo,Fauna,Ave,Ave pequeña azul-grisácea. Común en áreas arboladas.
+Turpial,Icterus icterus,No,null,0.06-0.08 kg,20-23 cm,Nativo,Fauna,Ave,Ave nacional de Venezuela. Naranja/negro con canto melodioso.
+Cari cari,Milvago chimachima,No,null,0.3-0.4 kg,40-45 cm,Nativo,Fauna,Ave,Halconcito color crema. Carroñero y oportunista.
+Pereza,Bradypus variegatus,No,null,4-5 kg,50-60 cm,Nativo,Fauna,Mamífero,Mamífero arbóreo lento. Pelaje con algas simbióticas.
+Indio desnudo,Bursera simaruba,No,null,N/A,20-30 m,Nativo,Flora,Nativa,Árbol con corteza rojiza que se desprende. Usos medicinales.
+Roble,Platymiscium diadelphum,No,null,N/A,25-35 m,Nativo,Flora,Nativa,Madera valiosa de color rojizo. Flores amarillas.
+Araguaney,Handroanthus chrysanthus,No,null,N/A,6-12 m,Nativo,Flora,Nativa,Árbol nacional. Florece en amarillo post-lluvias.
+Apamates,Tabebuia rosea,No,null,N/A,20-30 m,Nativo,Flora,Nativa,Árbol de flores rosadas. Madera usada en construcción.
+Orquídeas,Orchidaceae spp.,No,null,N/A,Variado,Nativo,Flora,Nativa,Epífitas de flores complejas. Alta biodiversidad en la zona.
+Ave del paraíso,Strelitzia reginae,No,null,N/A,1-2 m,Introducido,Flora,Agrícola,Planta ornamental con flores naranja/azul. No nativa.
+Aceite,Elaeis guineensis,No,null,N/A,10-20 m,Introducido,Flora,Agrícola,Palma africana cultivada para aceite. Invasora en hábitats.
+Cereza,Malpighia emarginata,No,null,N/A,3-6 m,Introducido,Flora,Agrícola,Arbusto frutal. Alto contenido de vitamina C.
+Uva playera,Coccoloba uvifera,No,null,N/A,2-8 m,Nativo,Flora,Nativa,Árbol costero de frutos comestibles. Tolerante a suelos salinos.
+Morpho azul,Morpho peleides,No,null,0.5 g,10-15 cm,Nativo,Fauna,Insecto,Mariposa icónica de alas azules iridiscentes; llamada 'azulón' por locales
+Bachaco,Atta cephalotes,No,null,0.01 g,0.5-1.5 cm,Nativo,Fauna,Insecto,Hormiga cortadora de hojas; conocida por sus enderos visibles
+Zancudo patas blancas,Anopheles darlingi,Sí,Transmite paludismo,0.001 g,0.5 cm,Nativo,Fauna,Insecto,Mosquito vector de malaria; llamado 'patas blancas' en zonas rurales
+Abeja brillo,Euglossa spp.,No,null,0.1 g,1-1.5 cm,Nativo,Fauna,Insecto,Abeja solitaria de colores metálicos; poliniza orquídeas silvestres
+Escarabajo arlequín,Acrocinus longimanus,No,null,3 g,5-8 cm,Nativo,Fauna,Insecto,Escarabajo de patas largas; llamado 'sanjuanero' en algunas áreas
+Libélula gigante,Pseudostigmatidae,No,null,1 g,10-15 cm,Nativo,Fauna,Insecto,Depredadora de mosquitos; llamada 'caballito del diablo' localmente
+Tigre de árbol,Psalmopoeus irminia,Sí,Mordedura dolorosa,15 g,12-15 cm,Nativo,Fauna,Insecto,Tarántula naranja/negra; temida pero raramente vista
+Monarca tropical,Danaus plexippus,No,null,0.5 g,10 cm,Migratorio,Fauna,Insecto,Variante local de la mariposa monarca; llamada 'algodoncillo'
+Escarabajo rodacaca,Canthon spp.,No,null,0.5 g,1-2 cm,Nativo,Fauna,Insecto,Recicla excrementos; conocido como 'bolero' o 'rodador'
+Santa Teresa,Stagmatoptera diana,No,null,0.3 g,6-8 cm,Nativo,Fauna,Insecto,Mantis religiosa; llamada 'campesino' o 'rezadora'
+Moriche,Mauritia flexuosa,No,null,N/A,25-35 m,Nativo,Flora,Nativo,Palma emblemática de humedales; con frutos comestibles y usos artesanales.
+Yuca,Manihot esculenta,No,null,N/A,1-3 m,Nativo,Flora,Agrícola,Cultivo alimenticio básico; raíces ricas en almidón.
+Plátano,Musa paradisiaca,No,null,N/A,2-5 m,Introducido,Flora,Agrícola,Fruto esencial en la dieta local; requiere humedad.
+Pira o Amaranto,Amaranthus spinosus,Sí,Espinas,N/A,0.5-1.5 m,Nativo,Flora,Arvense,Maleza común con espinas; compite con cultivos.
+Lechosa o Papaya,Carica papaya,No,null,N/A,3-10 m,Introducido,Flora,Agrícola,Árbol frutal de rápido crecimiento.
+Guamo,Inga edulis,No,null,N/A,5-15 m,Nativo,Flora,Arvense,Leguminosa usada como sombra y alimento (vainas dulces).
+Cadillo,Bidens pilosa,Sí,Adherencia,N/A,0.3-1 m,Nativo,Flora,Arvense,Maleza con frutos que se adhieren a ropa y piel.
+Ocumo chino,Xanthosoma sagittifolium,No,null,N/A,1-2 m,Nativo,Flora,Agrícola,Cultivo de tubérculos comestibles; tolera sombra.
+Coyolillo,Cyperus rotundus,Sí,Invasividad,N/A,0.2-0.7 m,Nativo,Flora,Arvense,Maleza muy persistente en cultivos y jardines.
+Sapo neotropical,Bufo marinus,No,null,200-500 g,10-15 cm,Nativo,Fauna,Anfibio,Sapo grande; adaptable; con glándulas venenosas no letales para humanos.
+Rana mono gigante,Phyllomedusa bicolor,No,null,50-100 g,9-12 cm,Nativo,Fauna,Anfibio,Rana arborícola con piel resistente a la deshidratación.
+Rana pacman de cuernos,Ceratophrys cornuta,No,null,300-500 g,10-20 cm,Nativo,Fauna,Anfibio,Rana depredadora con boca ancha y 'cuernos' sobre los ojos.
+Sapo minero de Quelch,Oreophrynella quelchii,No,null,5-10 g,2-3 cm,Nativo,Fauna,Anfibio,Sapo pequeño que habita en tepuyes; en peligro por cambio climático.

@@ -19,7 +19,7 @@ class FloraCategoryCard extends StatelessWidget {
     final isSmall = width < 360;
     final isLarge = width > 600;
     double borderRadius = isSmall ? 14 : (isLarge ? 36 : 24);
-    double outerPad = isSmall ? 6 : 12;
+    double outerPad = isSmall ? 3 : 6;
     double imgHeight = isSmall ? 90 : (isLarge ? 200 : 160);
     double titleFontSize = isSmall ? 18 : (isLarge ? 44 : 36);
     double titleRight = isSmall ? 8 : 20;

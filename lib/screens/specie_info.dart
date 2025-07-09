@@ -1,27 +1,17 @@
+import 'package:ecoscan/data/species.dart';
 import 'package:flutter/material.dart';
 import 'package:ecoscan/utils/colors.dart';
 
 class SpecieInfoScreen extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String scientificName;
-  final String description;
-  final List<Map<String, String>> dataCards;
+  final Species species;
 
-  const SpecieInfoScreen({
-    super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.scientificName,
-    required this.description,
-    required this.dataCards,
-  });
+  const SpecieInfoScreen({super.key, required this.species});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
-    final height = size.height;
+    //final height = size.height;
     final isSmall = width < 360;
     final isLarge = width > 600;
     double imageHeight = isLarge ? 420 : (isSmall ? 220 : 320);
@@ -52,7 +42,7 @@ class SpecieInfoScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   height: imageHeight,
-                  child: Image.asset(imageUrl, fit: BoxFit.cover),
+                  child: speciesImageWidget(species, imageHeight),
                 ),
                 Positioned(
                   top: backBtnSize / 2,
@@ -85,7 +75,7 @@ class SpecieInfoScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        scientificName,
+                        species.nombreCientifico,
                         style: TextStyle(
                           color: colorsWhite.withOpacity(0.8),
                           fontSize: sciNameFontSize,
@@ -102,7 +92,7 @@ class SpecieInfoScreen extends StatelessWidget {
                       ),
                       SizedBox(height: betweenNames),
                       Text(
-                        name,
+                        species.nombreComun,
                         style: TextStyle(
                           color: colorsWhite,
                           fontSize: nameFontSize,
@@ -129,44 +119,15 @@ class SpecieInfoScreen extends StatelessWidget {
               child: Wrap(
                 spacing: cardSpacing,
                 runSpacing: cardSpacing,
-                children:
-                    dataCards.map((card) {
-                      return Container(
-                        width: width / 2 - cardSpacing * 2,
-                        padding: EdgeInsets.symmetric(
-                          vertical: cardPaddingV,
-                          horizontal: cardPaddingH,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colorsGreen,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              card['label']!,
-                              style: TextStyle(
-                                color: colorsWhite,
-                                fontSize: cardLabelFontSize,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              card['value']!,
-                              style: TextStyle(
-                                color: colorsWhite,
-                                fontSize: cardValueFontSize,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                children: [
+                  _dataCard('Peso', species.peso),
+                  _dataCard('Longitud', species.longitud),
+                  _dataCard('Origen', species.origen),
+                  _dataCard(
+                    'Amenaza',
+                    species.peligroso ? 'Peligroso' : 'No peligroso',
+                  ),
+                ],
               ),
             ),
             SizedBox(height: cardSpacing + 2),
@@ -191,7 +152,7 @@ class SpecieInfoScreen extends StatelessWidget {
                 ),
                 child: SingleChildScrollView(
                   child: Text(
-                    description,
+                    species.descripcion,
                     style: TextStyle(
                       fontSize: descFontSize,
                       color: colorsBlack,
@@ -205,5 +166,103 @@ class SpecieInfoScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _dataCard(String label, String value) {
+    final size = WidgetsBinding.instance.window.physicalSize;
+    final width = size.width / WidgetsBinding.instance.window.devicePixelRatio;
+    final isSmall = width < 360;
+    double cardLabelFontSize = isSmall ? 12 : 14;
+    double cardValueFontSize = isSmall ? 14 : 18;
+    double cardPaddingV = isSmall ? 8 : 14;
+    double cardPaddingH = isSmall ? 6 : 10;
+    return Container(
+      width: width / 2 - 24,
+      padding: EdgeInsets.symmetric(
+        vertical: cardPaddingV,
+        horizontal: cardPaddingH,
+      ),
+      decoration: BoxDecoration(
+        color: colorsGreen,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: colorsWhite,
+              fontSize: cardLabelFontSize,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              color: colorsWhite,
+              fontSize: cardValueFontSize,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget speciesImageWidget(Species species, double height) {
+    // Aquí puedes mapear imágenes según especie, tipo o clasificación
+    // Por ahora, muestra un placeholder seguro
+    String? asset;
+    // Ejemplo: puedes usar el tipo o clasificación para elegir imagen
+    switch (species.clasificacion) {
+      case 'mamífero':
+        asset = 'assets/images/mamifero.png';
+        break;
+      case 'ave':
+        asset = 'assets/images/ave.png';
+        break;
+      case 'reptil':
+        asset = 'assets/images/reptiles.png';
+        break;
+      case 'pez':
+        asset = 'assets/images/peces.png';
+        break;
+      case 'anfibio':
+        asset = 'assets/images/anfibio.png';
+        break;
+      case 'insecto':
+        asset = 'assets/images/insectos.png';
+        break;
+      case 'nativa':
+        asset = 'assets/images/nativa.png';
+        break;
+      case 'agrícola':
+        asset = 'assets/images/nativa.png';
+        break;
+      case 'arvense':
+        asset = 'assets/images/nativa.png';
+        break;
+      default:
+        asset = null;
+    }
+    if (asset != null && asset.isNotEmpty) {
+      return Image.asset(
+        asset,
+        fit: BoxFit.cover,
+        height: height,
+        width: double.infinity,
+      );
+    } else {
+      return Container(
+        height: height,
+        width: double.infinity,
+        color: Colors.grey[300],
+        child: Icon(Icons.image, size: height * 0.5, color: Colors.grey[600]),
+      );
+    }
   }
 }

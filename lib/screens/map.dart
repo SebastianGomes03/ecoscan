@@ -18,7 +18,10 @@ class MapScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         child: FlutterMap(
           options: MapOptions(
-            center: LatLng(8.317, -62.713), // Guayana City, near the river
+            center: LatLng(
+              8.331607929262454,
+              -62.67086882654499,
+            ), // Guayana City, near the river
             zoom: 13.5,
           ),
           children: [

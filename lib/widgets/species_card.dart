@@ -20,9 +20,9 @@ class SpeciesCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final isSmall = width < 360;
     final isLarge = width > 600;
-    double imgHeight = isSmall ? 120 : (isLarge ? 260 : 180);
-    double nameFontSize = isSmall ? 14 : (isLarge ? 26 : 20);
-    double sciFontSize = isSmall ? 10 : (isLarge ? 18 : 13);
+    double imgHeight = isSmall ? 90 : (isLarge ? 230 : 150);
+    double nameFontSize = isSmall ? 12 : (isLarge ? 24 : 18);
+    double sciFontSize = isSmall ? 8 : (isLarge ? 16 : 10);
     double borderRadius = isSmall ? 10 : (isLarge ? 24 : 16);
     double padH = isSmall ? 2 : 4;
 
@@ -38,12 +38,35 @@ class SpeciesCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius),
-              child: Image.asset(
-                imageUrl,
-                width: double.infinity,
-                height: imgHeight,
-                fit: BoxFit.cover,
-              ),
+              child:
+                  imageUrl.isNotEmpty
+                      ? Image.asset(
+                        imageUrl,
+                        width: double.infinity,
+                        height: imgHeight,
+                        fit: BoxFit.cover,
+                        errorBuilder:
+                            (context, error, stackTrace) => Container(
+                              width: double.infinity,
+                              height: imgHeight,
+                              color: Colors.grey[300],
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: imgHeight * 0.5,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                      )
+                      : Container(
+                        width: double.infinity,
+                        height: imgHeight,
+                        color: Colors.grey[300],
+                        child: Icon(
+                          Icons.image,
+                          size: imgHeight * 0.5,
+                          color: Colors.grey[600],
+                        ),
+                      ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: padH, vertical: 0),

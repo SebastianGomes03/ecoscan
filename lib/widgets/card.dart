@@ -21,7 +21,7 @@ class CategoryCard extends StatelessWidget {
     final isSmall = width < 360;
     final isLarge = width > 600;
     double borderRadius = isSmall ? 12 : (isLarge ? 36 : 24);
-    double imgHeight = isSmall ? 120 : (isLarge ? 320 : 220);
+    double imgHeight = isSmall ? 160 : (isLarge ? 360 : 260);
     double titleFont = titleFontSize ?? (isSmall ? 18 : (isLarge ? 44 : 32));
     double pad = isSmall ? 8 : 16;
 

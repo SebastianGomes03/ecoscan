@@ -1,4 +1,3 @@
-import 'package:ecoscan/screens/biopedia.dart';
 import 'package:flutter/material.dart';
 import 'package:ecoscan/widgets/card.dart';
 import 'package:ecoscan/utils/colors.dart';

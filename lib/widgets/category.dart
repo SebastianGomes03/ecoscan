@@ -28,7 +28,7 @@ class CategoryButton extends StatelessWidget {
     double padW = isSmall ? 4 : 24;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: isSmall ? 1 : 2),
+      padding: EdgeInsets.symmetric(vertical: isSmall ? 0.5 : 1),
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(

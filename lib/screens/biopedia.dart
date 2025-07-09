@@ -1,5 +1,5 @@
+import 'package:ecoscan/data/species.dart';
 import 'package:ecoscan/screens/specie_info.dart';
-import 'package:ecoscan/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:ecoscan/widgets/searchbar.dart';
 import 'package:ecoscan/widgets/filter.dart';
@@ -65,96 +65,26 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
     },
   ];
 
-  // Ejemplo de especies por categoría (puedes reemplazar con tus datos reales)
-  final Map<String, List<Map<String, String>>> floraSpecies = {
-    'Nativa': [
-      {
-        'image': 'assets/images/nativa.png',
-        'name': 'Orquídea',
-        'scientific': 'Orchidaceae',
-      },
-      // ...más especies
-    ],
-    'Agrícola': [
-      {
-        'image': 'assets/images/nativa.png',
-        'name': 'Maíz',
-        'scientific': 'Zea mays',
-      },
-    ],
-    'Arvense': [
-      {
-        'image': 'assets/images/nativa.png',
-        'name': 'Diente de león',
-        'scientific': 'Taraxacum officinale',
-      },
-    ],
-  };
-
-  final Map<String, List<Map<String, String>>> faunaSpecies = {
-    'Mamíferos': [
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Mono capuchino',
-        'scientific': 'Cebus capucinus',
-      },
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Mono capuchino',
-        'scientific': 'Cebus capucinus',
-      },
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Mono capuchino',
-        'scientific': 'Cebus capucinus',
-      },
-      // ...más especies
-    ],
-    'Aves': [
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Colibrí',
-        'scientific': 'Trochilidae',
-      },
-    ],
-    'Reptiles': [
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Iguana',
-        'scientific': 'Iguana iguana',
-      },
-    ],
-    'Peces': [
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Pez gato',
-        'scientific': 'Siluriformes',
-      },
-    ],
-    'Anfibios': [
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Rana verde',
-        'scientific': 'Hyla cinerea',
-      },
-    ],
-    'Insectos': [
-      {
-        'image': 'assets/images/mammal.png',
-        'name': 'Mariposa',
-        'scientific': 'Lepidoptera',
-      },
-    ],
-  };
+  late Future<List<Species>> _speciesFuture;
 
   // Para los filtros de flora/fauna
   int _selectedFloraFilter = 0;
   int _selectedFaunaFilter = 0;
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
   @override
   void initState() {
     super.initState();
-    _selectedFilter = widget.initialFilter; // Set from parameter
+    _selectedFilter = widget.initialFilter;
+    _speciesFuture = loadSpecies();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -171,11 +101,6 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
     int gridCount = isLarge ? 3 : 2;
     double gridAspectRatio = isLarge ? 1 : 0.8;
 
-    // Determina la categoría y especies seleccionadas
-    final isFlora = _selectedFilter == 0;
-    final categories = isFlora ? floraCategories : faunaCategories;
-    final selectedCategory = categories[_selectedCategoryIndex]['title']!;
-
     return Scaffold(
       backgroundColor: colorsWhite,
       body: SafeArea(
@@ -184,153 +109,198 @@ class _BiopediaScreenState extends State<BiopediaScreen> {
             horizontal: horizontalPadding,
             vertical: verticalPadding,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CustomSearchBar(),
-              FilterSelector(
-                selectedIndex: _selectedFilter,
-                onChanged: (index) {
-                  setState(() {
-                    _selectedFilter = index;
-                    _showSpeciesList = false;
-                    _selectedCategoryIndex = 0;
-                  });
-                },
-              ),
-              SizedBox(height: filterSpacing),
-              if (_showSpeciesList)
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: filterSpacing / 2),
-                  child:
-                      isFlora
-                          ? FloraFilterBar(
-                            selectedIndex: _selectedFloraFilter,
-                            imageUrls:
-                                floraCategories
-                                    .map((c) => c['image']!)
-                                    .toList(),
-                            onChanged: (i) {
-                              setState(() {
-                                _selectedFloraFilter = i;
-                                _selectedCategoryIndex = i;
-                              });
-                            },
-                          )
-                          : FaunaFilterBar(
-                            selectedIndex: _selectedFaunaFilter,
-                            items: faunaCategories,
-                            onChanged: (i) {
-                              setState(() {
-                                _selectedFaunaFilter = i;
-                                _selectedCategoryIndex = i;
-                              });
-                            },
-                          ),
-                ),
-              if (_showSpeciesList)
-                Padding(
-                  padding: EdgeInsets.only(bottom: filterSpacing / 2),
-                  child: Text(
-                    selectedCategory,
-                    style: TextStyle(
-                      fontSize: categoryTitleFontSize,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Poppins',
+          child: FutureBuilder<List<Species>>(
+            future: _speciesFuture,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final allSpecies = snapshot.data!;
+              final isFlora = _selectedFilter == 0;
+              final categories = isFlora ? floraCategories : faunaCategories;
+              final selectedCategory =
+                  categories[_selectedCategoryIndex]['title']!;
+              // Filter species by type and category
+              var filteredSpecies =
+                  allSpecies.where((sp) {
+                    if (isFlora) {
+                      return sp.tipo == 'flora' &&
+                          sp.clasificacion == selectedCategory.toLowerCase();
+                    } else {
+                      String cat = selectedCategory.toLowerCase();
+                      if (cat.endsWith('s'))
+                        cat = cat.substring(0, cat.length - 1);
+                      return sp.tipo == 'fauna' && sp.clasificacion == cat;
+                    }
+                  }).toList();
+              // Apply search filter
+              if (_searchQuery.isNotEmpty) {
+                filteredSpecies =
+                    filteredSpecies.where((sp) {
+                      final query = _searchQuery.toLowerCase();
+                      return sp.nombreComun.toLowerCase().contains(query) ||
+                          sp.nombreCientifico.toLowerCase().contains(query);
+                    }).toList();
+              }
+
+              // Determina la categoría y especies seleccionadas
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!_showSpeciesList) ...[
+                    Text(
+                      'Biopedia',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Poppins',
+                        color: colorsBlack,
+                      ),
                     ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Explora las especies por categoría',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: colorsBlack.withOpacity(0.7),
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    SizedBox(height: filterSpacing),
+                  ],
+                  if (_showSpeciesList)
+                    CustomSearchBar(
+                      controller: _searchController,
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
+                    ),
+                  FilterSelector(
+                    selectedIndex: _selectedFilter,
+                    onChanged: (index) {
+                      setState(() {
+                        _selectedFilter = index;
+                        _showSpeciesList = false;
+                        _selectedCategoryIndex = 0;
+                      });
+                    },
                   ),
-                ),
-              SizedBox(height: filterSpacing / 2),
-              Expanded(
-                child:
-                    !_showSpeciesList
-                        // Vista de categorías
-                        ? ListView(
-                          children:
-                              categories.asMap().entries.map((entry) {
-                                final i = entry.key;
-                                final cat = entry.value;
-                                return isFlora
-                                    ? FloraCategoryCard(
-                                      imageUrl: cat['image']!,
-                                      title: cat['title']!,
-                                      onTap: () {
-                                        setState(() {
-                                          _showSpeciesList = true;
-                                          _selectedCategoryIndex = i;
-                                          _selectedFloraFilter = i;
-                                        });
-                                      },
-                                    )
-                                    : CategoryButton(
-                                      backgroundImageUrl: cat['bg']!,
-                                      representativeImageUrl: cat['icon']!,
-                                      title: cat['title']!,
-                                      onTap: () {
-                                        setState(() {
-                                          _showSpeciesList = true;
-                                          _selectedCategoryIndex = i;
-                                          _selectedFaunaFilter = i;
-                                        });
-                                      },
-                                    );
-                              }).toList(),
-                        )
-                        // Vista de especies de la categoría seleccionada
-                        : GridView.count(
-                          crossAxisCount: gridCount,
-                          childAspectRatio: gridAspectRatio,
-                          mainAxisSpacing: gridSpacing,
-                          crossAxisSpacing: gridSpacing,
-                          children:
-                              (isFlora
-                                      ? floraSpecies[selectedCategory]
-                                      : faunaSpecies[selectedCategory])!
-                                  .map(
-                                    (sp) => SpeciesCard(
-                                      imageUrl: sp['image']!,
-                                      name: sp['name']!,
-                                      scientificName: sp['scientific']!,
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder:
-                                                (_) => SpecieInfoScreen(
-                                                  imageUrl: sp['image']!,
-                                                  name: sp['name']!,
-                                                  scientificName:
-                                                      sp['scientific']!,
-                                                  description:
-                                                      'Aquí va la descripción de la especie.',
-                                                  dataCards: [
-                                                    {
-                                                      'label': 'Peso',
-                                                      'value': '1.7kg - 4.7kg',
-                                                    },
-                                                    {
-                                                      'label': 'Longitud',
-                                                      'value': '35cm - 50cm',
-                                                    },
-                                                    {
-                                                      'label': 'Origen',
-                                                      'value': 'Nativa',
-                                                    },
-                                                    {
-                                                      'label': 'Amenaza',
-                                                      'value': 'No peligroso',
-                                                    },
-                                                  ],
-                                                ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
+                  SizedBox(height: filterSpacing),
+                  if (_showSpeciesList)
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: filterSpacing / 2,
+                      ),
+                      child:
+                          isFlora
+                              ? FloraFilterBar(
+                                selectedIndex: _selectedFloraFilter,
+                                imageUrls:
+                                    floraCategories
+                                        .map((c) => c['image']!)
+                                        .toList(),
+                                onChanged: (i) {
+                                  setState(() {
+                                    _selectedFloraFilter = i;
+                                    _selectedCategoryIndex = i;
+                                  });
+                                },
+                              )
+                              : FaunaFilterBar(
+                                selectedIndex: _selectedFaunaFilter,
+                                items: faunaCategories,
+                                onChanged: (i) {
+                                  setState(() {
+                                    _selectedFaunaFilter = i;
+                                    _selectedCategoryIndex = i;
+                                  });
+                                },
+                              ),
+                    ),
+                  if (_showSpeciesList)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: filterSpacing / 2),
+                      child: Text(
+                        selectedCategory,
+                        style: TextStyle(
+                          fontSize: categoryTitleFontSize,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Poppins',
                         ),
-              ),
-            ],
+                      ),
+                    ),
+                  SizedBox(height: filterSpacing / 2),
+                  Expanded(
+                    child:
+                        !_showSpeciesList
+                            // Vista de categorías
+                            ? ListView(
+                              children:
+                                  categories.asMap().entries.map((entry) {
+                                    final i = entry.key;
+                                    final cat = entry.value;
+                                    return isFlora
+                                        ? FloraCategoryCard(
+                                          imageUrl: cat['image']!,
+                                          title: cat['title']!,
+                                          onTap: () {
+                                            setState(() {
+                                              _showSpeciesList = true;
+                                              _selectedCategoryIndex = i;
+                                              _selectedFloraFilter = i;
+                                            });
+                                          },
+                                        )
+                                        : CategoryButton(
+                                          backgroundImageUrl: cat['bg']!,
+                                          representativeImageUrl: cat['icon']!,
+                                          title: cat['title']!,
+                                          onTap: () {
+                                            setState(() {
+                                              _showSpeciesList = true;
+                                              _selectedCategoryIndex = i;
+                                              _selectedFaunaFilter = i;
+                                            });
+                                          },
+                                        );
+                                  }).toList(),
+                            )
+                            // Vista de especies de la categoría seleccionada
+                            : GridView.count(
+                              crossAxisCount: gridCount,
+                              childAspectRatio: gridAspectRatio,
+                              mainAxisSpacing: gridSpacing,
+                              crossAxisSpacing: gridSpacing,
+                              children:
+                                  filteredSpecies
+                                      .map(
+                                        (sp) => SpeciesCard(
+                                          imageUrl:
+                                              '', // Puedes mapear imagen si lo deseas
+                                          name: sp.nombreComun,
+                                          scientificName: sp.nombreCientifico,
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (_) => SpecieInfoScreen(
+                                                      species: sp,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                      .toList(),
+                            ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

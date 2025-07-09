@@ -20,53 +20,68 @@ class CustomNavbar extends StatelessWidget {
       _NavbarItem(icon: Icons.map_outlined, label: 'Map'),
     ];
 
-    return Container(
-      decoration: BoxDecoration(color:Colors.transparent),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(items.length, (index) {
-          final selected = index == selectedIndex;
-          return Expanded(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque, // <-- Aumenta el área de toque
-              onTap: () => onTabSelected(index),
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
-                padding: EdgeInsets.symmetric(
-                  vertical: 12,
-                ), // <-- Más padding vertical
-                decoration:
-                    selected
-                        ? BoxDecoration(
-                          color: colorsGreen,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(16),
-                          ),
-                        )
-                        : null,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      items[index].icon,
-                      size: 32,
-                      color: selected ? colorsWhite : colorsBlack,
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      items[index].label,
-                      style: TextStyle(
-                        color: selected ? colorsWhite : colorsBlack,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: colorsGreen, // Fondo principal del navbar
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: colorsGreen.withOpacity(0.15),
+              blurRadius: 12,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(items.length, (index) {
+            final selected = index == selectedIndex;
+            return Expanded(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => onTabSelected(index),
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                  decoration:
+                      selected
+                          ? BoxDecoration(
+                            color: colorsWhite,
+                            borderRadius: BorderRadius.circular(16),
+                          )
+                          : BoxDecoration(color: Colors.transparent),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        items[index].icon,
+                        size: 25,
+                        color:
+                            selected
+                                ? colorsGreen
+                                : colorsWhite.withOpacity(0.7),
                       ),
-                    ),
-                  ],
+                      if (selected) ...[
+                        SizedBox(width: 2),
+                        Text(
+                          items[index].label,
+                          style: TextStyle(
+                            color: colorsGreen,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:ecoscan/utils/colors.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  final TextEditingController? controller;
-  final ValueChanged<String>? onChanged;
+  final TextEditingController controller;
+  final ValueChanged<String> onChanged;
 
   const CustomSearchBar({
     super.key,
-    this.controller,
-    this.onChanged,
+    required this.controller,
+    required this.onChanged,
   });
 
   @override
@@ -18,10 +18,7 @@ class CustomSearchBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorsWhite,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: colorsBlack.withOpacity(0.5),
-          width: 4,
-        ),
+        border: Border.all(color: colorsBlack.withOpacity(0.5), width: 4),
       ),
       child: Row(
         children: [
@@ -38,7 +35,7 @@ class CustomSearchBar extends StatelessWidget {
               controller: controller,
               onChanged: onChanged,
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 24,
                 color: colorsBlack.withOpacity(0.5),
                 fontWeight: FontWeight.w400,
               ),
