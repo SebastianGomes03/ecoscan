@@ -8,6 +8,9 @@ import 'package:blur/blur.dart';
 import 'package:ecoscan/data/species.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:image/image.dart' as img;
+import 'package:flutter/services.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -26,11 +29,14 @@ class _CameraScreenState extends State<CameraScreen>
   XFile? _imageFile;
   CameraState _state = CameraState.preview;
   bool _flashOn = false;
+  late ProcesadorTFLiteOffline _procesadorTFLite;
+  bool _modeloListo = false;
 
   @override
   void initState() {
     super.initState();
     _initCamera();
+    _initTFLite();
   }
 
   Future<void> _initCamera() async {
@@ -53,6 +59,14 @@ class _CameraScreenState extends State<CameraScreen>
         _controller = null;
       });
     }
+  }
+
+  Future<void> _initTFLite() async {
+    _procesadorTFLite = ProcesadorTFLiteOffline();
+    await _procesadorTFLite.inicializar();
+    setState(() {
+      _modeloListo = true;
+    });
   }
 
   void _toggleCamera() async {
@@ -99,57 +113,52 @@ class _CameraScreenState extends State<CameraScreen>
       _state = CameraState.loading;
     });
 
-    if (_imageFile == null) return;
+    if (_imageFile == null || !_modeloListo) return;
 
     try {
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-          'https://g9xr1pf8-5000.use2.devtunnels.ms/predict',
-        ), // Replace with your PC's IP if testing on device
+      // Procesar imagen localmente con TFLite
+      final resultado = await _procesadorTFLite.procesarImagen(
+        File(_imageFile!.path),
       );
-      request.files.add(
-        await http.MultipartFile.fromPath('file', _imageFile!.path),
+      final label = resultado['especie'] ?? 'Desconocido';
+      final speciesList = await loadSpecies();
+      final especieReconocida = speciesList.firstWhere(
+        (sp) => normalize(sp.nombreCientifico) == normalize(label),
+        orElse:
+            () => Species(
+              nombreCientifico: 'Desconocido',
+              nombreComun: 'Desconocido',
+              peligroso: false,
+              razon: '',
+              peso: '',
+              longitud: '',
+              origen: '',
+              tipo: '',
+              clasificacion: '',
+              descripcion: 'No se encontró información para esta especie.',
+              imagen: '',
+            ),
       );
-      var response = await request.send();
 
-      if (response.statusCode == 200) {
-        var respStr = await response.stream.bytesToString();
-        var data = json.decode(respStr);
-
-        // Use the response data to navigate to SpecieInfoScreen
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder:
-                (_) => SpecieInfoScreen(
-                  species: Species(
-                    nombreComun: data['class'] ?? 'Desconocido',
-                    nombreCientifico: '',
-                    peligroso: false,
-                    razon: '',
-                    peso: '',
-                    longitud: '',
-                    origen: '',
-                    tipo: '',
-                    clasificacion: '',
-                    descripcion:
-                        'Confianza: \\${(data['confidence'] * 100).toStringAsFixed(2)}%',
-                    imagen: _imageFile!.path,
-                  ),
-                ),
+      print('Especie reconocida: $label, confianza: ${resultado['confianza']}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Especie: $label\nConfianza: ${resultado['confianza'].toStringAsFixed(2)}%',
           ),
-        );
-      } else {
-        // Handle error
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error en el reconocimiento')));
-      }
+        ),
+      );
+
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => SpecieInfoScreen(species: especieReconocida),
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Error: \\${e.toString()}')));
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
     }
 
     if (!mounted) return;
@@ -393,3 +402,155 @@ class _CameraScreenState extends State<CameraScreen>
     return Scaffold(backgroundColor: colorsWhite, body: content);
   }
 }
+
+// --- ProcesadorTFLiteOffline ---
+class ProcesadorTFLiteOffline {
+  static const String _modelPath =
+      'assets/model/best_combined_classifier.tflite';
+  static const String _labelsPath = 'assets/model/labels.txt';
+  Interpreter? _interpreter;
+  List<String> _labels = [];
+  bool _modeloCargado = false;
+  int _inputSize = 224;
+  int _numClasses = 19;
+
+  bool get modeloCargado => _modeloCargado;
+  List<String> get labels => _labels;
+  int get inputSize => _inputSize;
+  int get numClasses => _numClasses;
+
+  Future<void> inicializar() async {
+    try {
+      await _cargarModelo();
+      await _cargarEtiquetas();
+      _modeloCargado = true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> _cargarModelo() async {
+    _interpreter = await Interpreter.fromAsset(_modelPath);
+    final inputTensor = _interpreter!.getInputTensor(0);
+    final outputTensor = _interpreter!.getOutputTensor(0);
+    _inputSize = inputTensor.shape[1];
+    _numClasses = outputTensor.shape[1];
+  }
+
+  Future<void> _cargarEtiquetas() async {
+    try {
+      final String labelsString = await rootBundle.loadString(_labelsPath);
+      _labels =
+          labelsString
+              .split('\n')
+              .map((line) => line.trim())
+              .where((line) => line.isNotEmpty)
+              .toList();
+    } catch (e) {
+      _labels = List.generate(_numClasses, (index) => 'Class_index');
+    }
+  }
+
+  Future<Map<String, dynamic>> procesarImagen(File imagen) async {
+    if (!_modeloCargado || _interpreter == null) {
+      throw Exception(
+        'Procesador no inicializado. Llama a inicializar() primero.',
+      );
+    }
+    final input = await _preprocesarImagen(imagen);
+    final output = [List.filled(_numClasses, 0.0)];
+    _interpreter!.run(input, output);
+    print('Output tensor: ${output[0]}');
+    return _procesarResultados(output[0]);
+  }
+
+  Future<List<List<List<List<double>>>>> _preprocesarImagen(File imagen) async {
+    final bytes = await imagen.readAsBytes();
+    final image = img.decodeImage(bytes);
+    if (image == null) {
+      throw Exception('No se pudo decodificar la imagen');
+    }
+    final resizedImage = img.copyResize(
+      image,
+      width: _inputSize,
+      height: _inputSize,
+    );
+    final tensor = List.generate(
+      1,
+      (_) => List.generate(
+        _inputSize,
+        (y) => List.generate(
+          _inputSize,
+          (x) => List.generate(3, (c) {
+            final pixel = resizedImage.getPixel(x, y);
+            double value;
+            switch (c) {
+              case 0:
+                value = (pixel.r / 127.5) - 1.0; // MobileNetV3 preprocess_input
+                break;
+              case 1:
+                value = (pixel.g / 127.5) - 1.0;
+                break;
+              case 2:
+                value = (pixel.b / 127.5) - 1.0;
+                break;
+              default:
+                value = 0.0;
+            }
+            return value;
+          }),
+        ),
+      ),
+    );
+    print('Primeros valores del tensor: ${tensor[0][0][0]}');
+    final input =
+        tensor
+            .map(
+              (batch) =>
+                  batch
+                      .map(
+                        (row) =>
+                            row
+                                .map(
+                                  (pixel) =>
+                                      pixel.map((v) => v.toDouble()).toList(),
+                                )
+                                .toList(),
+                      )
+                      .toList(),
+            )
+            .toList();
+    return input;
+  }
+
+  Map<String, dynamic> _procesarResultados(List<double> output) {
+    int maxIndex = 0;
+    double maxValue = output[0];
+    for (int i = 1; i < output.length; i++) {
+      if (output[i] > maxValue) {
+        maxValue = output[i];
+        maxIndex = i;
+      }
+    }
+    final confianza = maxValue * 100.0;
+    final especie =
+        maxIndex < _labels.length ? _labels[maxIndex] : 'Desconocido';
+    return {'especie': especie, 'confianza': confianza, 'indice': maxIndex};
+  }
+
+  void dispose() {
+    _interpreter?.close();
+    _interpreter = null;
+    _modeloCargado = false;
+    _labels.clear();
+  }
+}
+
+String normalize(String s) => s
+    .trim()
+    .toLowerCase()
+    .replaceAll(RegExp(r'[áàäâ]'), 'a')
+    .replaceAll(RegExp(r'[éèëê]'), 'e')
+    .replaceAll(RegExp(r'[íìïî]'), 'i')
+    .replaceAll(RegExp(r'[óòöô]'), 'o')
+    .replaceAll(RegExp(r'[úùüû]'), 'u');
