@@ -6,6 +6,8 @@ import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:blur/blur.dart';
 import 'package:ecoscan/data/species.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -97,35 +99,60 @@ class _CameraScreenState extends State<CameraScreen>
       _state = CameraState.loading;
     });
 
-    // Simula un "reconocimiento" con un pequeño delay
-    await Future.delayed(const Duration(seconds: 2));
+    if (_imageFile == null) return;
+
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          'https://g9xr1pf8-5000.use2.devtunnels.ms/predict',
+        ), // Replace with your PC's IP if testing on device
+      );
+      request.files.add(
+        await http.MultipartFile.fromPath('file', _imageFile!.path),
+      );
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        var respStr = await response.stream.bytesToString();
+        var data = json.decode(respStr);
+
+        // Use the response data to navigate to SpecieInfoScreen
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (_) => SpecieInfoScreen(
+                  species: Species(
+                    nombreComun: data['class'] ?? 'Desconocido',
+                    nombreCientifico: '',
+                    peligroso: false,
+                    razon: '',
+                    peso: '',
+                    longitud: '',
+                    origen: '',
+                    tipo: '',
+                    clasificacion: '',
+                    descripcion:
+                        'Confianza: \\${(data['confidence'] * 100).toStringAsFixed(2)}%',
+                    imagen: _imageFile!.path,
+                  ),
+                ),
+          ),
+        );
+      } else {
+        // Handle error
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error en el reconocimiento')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: \\${e.toString()}')));
+    }
 
     if (!mounted) return;
-
-    // Simula el reconocimiento, pero navega a SpecieInfoScreen con datos dummy
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (_) => SpecieInfoScreen(
-              species: Species(
-                nombreComun: 'Mono capuchino',
-                nombreCientifico: 'Cebus capucinus',
-                peligroso: false,
-                razon: '',
-                peso: '1.7kg - 4.7kg',
-                longitud: '35cm - 50cm',
-                origen: 'Nativa',
-                tipo: 'fauna',
-                clasificacion: 'mamífero',
-                descripcion:
-                    'En Ciudad Guayana, el mono capuchino, conocido localmente como "mono maicero" o "mono chuco", es un primate pequeño y ágil con pelaje que varía entre tonos crema y canela, especialmente en la cara, cuello y hombros. Son omnívoros, adaptándose a una dieta diversa que incluye frutas, nueces, insectos y pequeños vertebrados. Suelen vivir en grupos sociales y son conocidos por su inteligencia y habilidad para usar herramientas.', 
-                imagen: '',
-              ),
-            ),
-      ),
-    );
-    // Al regresar, vuelve a la cámara en modo preview
     setState(() {
       _state = CameraState.preview;
       _imageFile = null;
