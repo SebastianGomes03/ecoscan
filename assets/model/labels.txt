@@ -1,10 +1,10 @@
-Icterus icterus
-Milvago chimachima
-Cebus apella
-Brycon whitei
-Piaractus brachypomus
-Chelonoidis carbonarius
-Bursera simaruba
-Handroanthus chrysanthus
+Fauna_AvesIcterus icterus_images
+Fauna_AvesMilvago chimachima_images
+Fauna_MamiferosCebus apella_images
+Fauna_PecesBrycon whitei_images
+Fauna_PecesPiaractus brachypomus_images
+Fauna_ReptilesChelonoidis carbonarius_images
+Flora_NativaBursera simaruba_images
+Flora_NativaHandroanthus chrysanthus_images
 
 

@@ -1,29 +1,45 @@
-import os
-import numpy as np
 from flask import Flask, request, jsonify
-from tensorflow.keras.models import load_model
+import tensorflow as tf
+import numpy as np
+from PIL import Image
+import io
+import os
 from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
-from tensorflow.keras.preprocessing import image
-
-# Configuración
-MODEL_PATH = "best_fauna_classifier_tf1.h5"  # Cambia a tu modelo si es flora
-IMG_SIZE = (224, 224)
-
-# Cargar modelo y clases
-model = load_model(MODEL_PATH)
-
-# Si tienes las clases guardadas en un archivo, cámbialo aquí
-def get_class_names(dataset_dir):
-    # Busca las carpetas de clases en el dataset plano
-    classes = [d for d in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, d))]
-    classes.sort()
-    return classes
-
-# Cambia este path al dataset plano correspondiente
-default_dataset_dir = "AugmentedDataset_flat_Fauna"
-class_names = get_class_names(default_dataset_dir)
 
 app = Flask(__name__)
+
+MODEL_OUT = os.path.abspath("assets/model/best_combined_classifier.tflite")
+interpreter = tf.lite.Interpreter(model_path=MODEL_OUT)
+interpreter.allocate_tensors()
+
+class_names = [
+    "Fauna_AvesIcterus icterus_images",
+    "Fauna_AvesMilvago chimachima_images",
+    "Fauna_MamiferosCebus apella_images",
+    "Fauna_PecesBrycon whitei_images",
+    "Fauna_PecesPiaractus brachypomus_images",
+    "Fauna_ReptilesChelonoidis carbonarius_images",
+    "Flora_NativaBursera simaruba_images",
+    "Flora_NativaHandroanthus chrysanthus_images"
+]
+
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+# New prediction function using same logic as test algorithm
+def predict_image_tflite(image_bytes, interpreter, class_names):
+    img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
+    img = img.resize((224, 224))
+    x = np.array(img, dtype=np.float32)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+    input_index = interpreter.get_input_details()[0]['index']
+    output_index = interpreter.get_output_details()[0]['index']
+    interpreter.set_tensor(input_index, x)
+    interpreter.invoke()
+    preds = interpreter.get_tensor(output_index)[0]
+    idx = np.argmax(preds)
+    return class_names[idx], float(preds[idx])
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -33,15 +49,9 @@ def predict():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
     try:
-        img = image.load_img(file, target_size=IMG_SIZE)
-        x = image.img_to_array(img)
-        x = np.expand_dims(x, axis=0)
-        x = preprocess_input(x)
-        preds = model.predict(x)
-        class_idx = int(np.argmax(preds, axis=1)[0])
-        class_name = class_names[class_idx] if class_idx < len(class_names) else str(class_idx)
-        confidence = float(np.max(preds))
-        return jsonify({'class': class_name, 'confidence': confidence})
+        img_bytes = file.read()
+        class_name, confidence = predict_image_tflite(img_bytes, interpreter, class_names)
+        return jsonify({'class': class_name, 'confidence': confidence * 100})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
