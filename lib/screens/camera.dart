@@ -139,7 +139,11 @@ class _CameraScreenState extends State<CameraScreen> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => SpecieInfoScreen(species: especieReconocida),
+          builder:
+              (_) => SpecieInfoScreen(
+                species: especieReconocida,
+                takenImage: _imageFile != null ? File(_imageFile!.path) : null,
+              ),
         ),
       );
     } catch (e) {

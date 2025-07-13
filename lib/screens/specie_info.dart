@@ -2,10 +2,13 @@ import 'package:ecoscan/data/species.dart';
 import 'package:flutter/material.dart';
 import 'package:ecoscan/utils/colors.dart';
 
+import 'dart:io';
+
 class SpecieInfoScreen extends StatelessWidget {
   final Species species;
+  final File? takenImage;
 
-  const SpecieInfoScreen({super.key, required this.species});
+  const SpecieInfoScreen({super.key, required this.species, this.takenImage});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,15 @@ class SpecieInfoScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   height: imageHeight,
-                  child: speciesImageWidget(species, imageHeight),
+                  child:
+                      takenImage != null
+                          ? Image.file(
+                            takenImage!,
+                            fit: BoxFit.cover,
+                            height: imageHeight,
+                            width: double.infinity,
+                          )
+                          : speciesImageWidget(species, imageHeight),
                 ),
                 Positioned(
                   top: backBtnSize / 2,

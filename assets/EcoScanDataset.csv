@@ -44,7 +44,7 @@ Tigre de árbol,Psalmopoeus irminia,Sí,Mordedura dolorosa,15 g,12-15 cm,Nativo,
 Monarca tropical,Danaus plexippus,No,null,0.5 g,10 cm,Migratorio,Fauna,Insecto,Variante local de la mariposa monarca; llamada 'algodoncillo'.,assets/images/fauna/monarca_tropical.png
 Escarabajo rodacaca,Canthon spp.,No,null,0.5 g,1-2 cm,Nativo,Fauna,Insecto,Recicla excrementos; conocido como 'bolero' o 'rodador'.,assets/images/fauna/escarabajo_rodacaca.png
 Santa Teresa,Stagmatoptera diana,No,null,0.3 g,6-8 cm,Nativo,Fauna,Insecto,Mantis religiosa; llamada 'campesino' o 'rezadora'.,assets/images/fauna/santa_teresa.png
-Moriche,Mauritia flexuosa,No,null,N/A,25-35 m,Nativo,Flora,Nativo,Palma emblemática de humedales; con frutos comestibles y usos artesanales.,assets/images/flora/moriche.png
+Moriche,Mauritia flexuosa,No,null,N/A,25-35 m,Nativo,Flora,Nativa,Palma emblemática de humedales; con frutos comestibles y usos artesanales.,assets/images/flora/moriche.png
 Yuca,Manihot esculenta,No,null,N/A,1-3 m,Nativo,Flora,Agrícola,Cultivo alimenticio básico; raíces ricas en almidón.,assets/images/flora/yuca.png
 Plátano,Musa paradisiaca,No,null,N/A,2-5 m,Introducido,Flora,Agrícola,Fruto esencial en la dieta local; requiere humedad.,assets/images/flora/platano.png
 Pira o Amaranto,Amaranthus spinosus,Sí,Espinas,N/A,0.5-1.5 m,Nativo,Flora,Arvense,Maleza común con espinas; compite con cultivos.,assets/images/flora/pira.png
@@ -57,3 +57,33 @@ Sapo neotropical,Bufo marinus,No,null,200-500 g,10-15 cm,Nativo,Fauna,Anfibio,Sa
 Rana mono gigante,Phyllomedusa bicolor,No,null,50-100 g,9-12 cm,Nativo,Fauna,Anfibio,Rana arborícola con piel resistente a la deshidratación.,assets/images/fauna/rana_mono.png
 Rana pacman de cuernos,Ceratophrys cornuta,No,null,300-500 g,10-20 cm,Nativo,Fauna,Anfibio,Rana depredadora con boca ancha y 'cuernos' sobre los ojos.,assets/images/fauna/rana_pacman.png
 Sapo minero de Quelch,Oreophrynella quelchii,No,null,5-10 g,2-3 cm,Nativo,Fauna,Anfibio,Sapo pequeño que habita en tepuyes; en peligro por cambio climático.,assets/images/fauna/sapo_quelch.png
+
+Zamuro negro,Coragyps atratus,No,null,1.5-2.5 kg,60-70 cm,Nativo,Fauna,Ave,Ave carroñera de plumaje negro. Habita en zonas abiertas y cerca de basureros.,assets/images/fauna/zamuro_negro.png
+Pato real,Cairina moschata,No,null,1.5-2.5 kg,65-75 cm,Nativo,Fauna,Ave,Pato de color negro con manchas blancas en las alas. Habita en lagunas y ríos.,assets/images/fauna/pato_real.png
+Jabirú,Jabiru mycteria,No,null,5-7 kg,120-140 cm,Nativo,Fauna,Ave,Cigüeña grande de plumaje blanco y cuello negro. Construye grandes nidos en árboles.,assets/images/fauna/jabiru.png
+Tucán pico de frasco,Ramphastos vitellinus,No,null,0.5-0.8 kg,45-55 cm,Nativo,Fauna,Ave,Tucán de pico colorido. Se alimenta de frutas y anida en huecos de árboles.,assets/images/fauna/tucan_pico_fresco.png
+Guacamaya roja,Ara chloropterus,No,null,1.0-1.5 kg,85-95 cm,Nativo,Fauna,Ave,Guacamayo de alas verdes y rojas. Social; anida en árboles altos.,assets/images/fauna/guacamaya_roja.png
+Iguana verde,Iguana iguana,No,null,4-6 kg,150-180 cm,Nativo,Fauna,Reptil,Lagarto arbóreo de color verde. Herbívoro; habita en árboles cerca del agua.,assets/images/fauna/iguana_verde.png
+Cascabel,Crotalus durissus,Sí,Venenosa,1-2 kg,120-150 cm,Nativo,Fauna,Reptil,Serpiente venenosa con cascabel en la cola. Habita en zonas secas y bosques.,assets/images/fauna/cascabel.png
+Matamata,Chelus fimbriatus,No,null,10-15 kg,40-50 cm,Nativo,Fauna,Reptil,Tortuga de aspecto extraño con cabeza plana y piel rugosa. Cazadora al acecho en fondos fangosos.,assets/images/fauna/matamata.png
+Terecay,Podocnemis unifilis,No,null,3-5 kg,30-40 cm,Nativo,Fauna,Reptil,Tortuga de río con manchas amarillas en la cabeza. Omnívora; anida en playas.,assets/images/fauna/terecay.png
+
+Rana de cristal oriental,Hyalinobatrachium orientale,No,null,0.002-0.003 kg,2-3 cm,Nativo,Fauna,Anfibio,Rana transparente de hábitos arbóreos; piel permite ver órganos internos. Endémica de tepuyes.,assets/images/fauna/rana_cristal.png
+Sapo minero común,Bufo typhonius,No,null,0.05-0.1 kg,6-10 cm,Nativo,Fauna,Anfibio,Sapo terrestre común en bosques húmedos; control natural de insectos.,assets/images/fauna/sapo_typhonius.png
+Cachama negra,Colossoma macropomum,No,null,10-30 kg,70-100 cm,Nativo,Fauna,Pez,Pez migratorio omnívoro; importante para acuicultura y pesca comercial en ríos.,assets/images/fauna/cachama_negra.png
+Copo,Prochilodus rubrotaeniatus,No,null,1-3 kg,30-50 cm,Nativo,Fauna,Pez,Especie detritívora; migra para desovar en cabeceras de ríos. Base de pesquerías locales.,assets/images/fauna/copo.png
+Caribe negro,Serrasalmus rhombeus,Sí,Mordeduras agresivas,0.5-2 kg,20-40 cm,Nativo,Fauna,Pez,Piraña de cardumen; depredador eficiente con mandíbulas poderosas.,assets/images/fauna/caribe_negro.png
+Bagre rayado,Pseudoplatystoma fasciatum,No,null,15-40 kg,80-130 cm,Nativo,Fauna,Pez,Bagre migratorio de gran tamaño; valor comercial en pesquerías del Orinoco.,assets/images/fauna/bagre_rayado.png
+Pavón real,Cichla temensis,No,null,8-12 kg,70-90 cm,Nativo,Fauna,Pez,Depredador fluvial; deporte pesquero clave en embalses y ríos turbulentos.,assets/images/fauna/pavon_real.png
+
+Caoba,Swietenia macrophylla,No,null,N/A,30-50 m,Nativo,Flora,Nativa,Madera preciosa rojiza. Habita bosques húmedos del Bajo Caroní. Amenazada por tala ilegal.,assets/images/flora/caoba.png
+Sarrapia,Dipteryx odorata,No,null,N/A,25-40 m,Nativo,Flora,Nativa,Produce cumarina (aroma a vainilla). Presente en bosques tropófilos. Frutos alimentan fauna.,assets/images/flora/sarrapia.png
+Pijiguao,Bactris gasipaes,Sí,Espinas agudas,N/A,10-20 m,Nativo,Flora,Agrícola,Palmera espinosa con frutos comestibles. Cultivada en conucos pemón.,assets/images/flroa/pijiguao.png
+Yagrumo,Cecropia peltata,No,null,N/A,10-20 m,Nativo,Flora,Nativa,Coloniza áreas perturbadas. Hojas usadas en medicina tradicional.,assets/images/flora/yagrumo.png
+Bucare,Erythrina poeppigiana,Sí,Alcaloides,N/A,15-25 m,Nativo,Flora,Nativa,Flores rojas atractivas. Tóxico para ganado. Fija nitrógeno en suelos degradados.,assets/images/flora/bucare.png
+Chiga,Caraipa llanorum,No,null,N/A,3-8 m,Nativo,Flora,Nativa,Endémico de sabanas guayanesas. Tolerante a fuego y suelos áridos.,assets/images/flora/chiga.png
+Camoruco,Sterculia apetala,No,null,N/A,20-35 m,Nativo,Flora,Nativa,Corteza fibrosa. Semillas comestibles. Habita bosques secos y sabanas.,assets/images/flora/camoruco.png
+Heliconia,Heliconia bihai,No,null,N/A,2-4 m,Nativo,Flora,Nativa,Inflorescencias rojas en forma de pinza. Polinizada por colibríes en sotobosques húmedos.,assets/images/flora/heliconia.png
+Congrio,Diplotropis purpurea,No,null,N/A,25-35 m,Nativo,Flora,Nativa,Madera dura. Dominante en bosques medio densos.,assets/images/flora/congrio.png
+Zapatero,Peltogyne floribunda,No,null,N/A,20-30 m,Nativo,Flora,Nativa,Madera púrpura valiosa. Especie clave en bosques de lomeríos.,assets/images/flora/zapatero.png
+Tortolito,Casearia sylvestris,No,null,N/A,4-8 m,Nativo,Flora,Nativa,Común en matorrales sucesionales. Frutos alimentan aves.,assets/images/flora/tortolito.png
